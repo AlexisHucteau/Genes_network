@@ -1,0 +1,800 @@
+from	to	Annotation	Direction	Score
+ABCA1	JUN	expression regulated by	<-	1
+ABCB1	JUN	expression regulated by	<-	1
+ABCG1	JUN	expression regulated by	<-	1
+ABL1	JUN	expression regulated by	<-	1
+ACAP1	JUN	expression regulated by	<-	1
+ACP5	JUN	GErel: expression by	<-	1
+ACTB	JUN	complex; reaction	-	1
+ADAM9	JUN	expression regulated by	<-	1
+AFAP1L2	JUN	expression regulated by	<-	1
+AGER	JUN	GErel: expression by	<-	1
+AIRE	JUN	expression regulated by	<-	1
+AJUBA	JUN	expression regulated by	<-	1
+AKT1	JUN	PPrel: activation; PPrel: activation, indirect effect	->	1
+AKT2	JUN	PPrel: activation; PPrel: activation, indirect effect	->	1
+AKT3	JUN	PPrel: activation; PPrel: activation, indirect effect	->	1
+ALDH1A1	JUN	expression regulated by	<-	1
+ALDOA	JUN	expression regulated by	<-	1
+ANGPT2	JUN	GErel: expression by	<-	1
+ANKRD1	JUN	expression regulated by	<-	1
+ANXA1	JUN	expression regulated by	<-	1
+ANXA2	JUN	expression regulated by	<-	1
+APLP2	JUN	predicted	-	0.77
+APOA2	JUN	predicted	-	0.64
+APP	JUN	expression regulated by	<-	1
+AR	JUN	reaction	-	1
+ARHGAP24	JUN	expression regulated by	<-	1
+ARHGEF10L	JUN	expression regulated by	<-	1
+ARID1A	JUN	complex; expression regulated by; input	<-	1
+ARNT	JUN	complex; input; reaction	-	1
+ARNTL	JUN	predicted	-	0.64
+ARRB1	JUN	predicted	-	0.64
+ARRB1	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+ARRB2	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+ASH2L	JUN	complex; input	-	1
+ASPH	JUN	inhibit	-|	1
+ASXL1	JUN	expression regulated by	<-	1
+ATF1	JUN	expression regulates	->	1
+ATF2	JUN	activate; complex; expression regulates; inhibited by; input	|->	1
+ATF3	JUN	complex; expression regulated by; input	<-	1
+ATF4	JUN	predicted	-	1
+ATF5	JUN	predicted	-	0.97
+ATP6V0B	SESN2	activated by	<-	1
+ATP6V0C	SESN2	activated by	<-	1
+ATP6V0D1	SESN2	activated by	<-	1
+ATP6V0D2	SESN2	activated by	<-	1
+ATP6V0E1	SESN2	activated by	<-	1
+ATP6V0E2	SESN2	activated by	<-	1
+ATP6V1A	SESN2	activated by	<-	1
+ATP6V1B1	SESN2	activated by	<-	1
+ATP6V1B2	SESN2	activated by	<-	1
+ATP6V1C1	SESN2	activated by	<-	1
+ATP6V1C2	SESN2	activated by	<-	1
+ATP6V1D	SESN2	activated by	<-	1
+ATP6V1E1	SESN2	activated by	<-	1
+ATP6V1E2	SESN2	activated by	<-	1
+ATP6V1F	SESN2	activated by	<-	1
+ATP6V1G1	SESN2	activated by	<-	1
+ATP6V1G2	SESN2	activated by	<-	1
+ATP6V1G3	SESN2	activated by	<-	1
+ATP6V1H	SESN2	activated by	<-	1
+ATP8B1	JUN	expression regulated by	<-	1
+AVP	JUN	expression regulated by	<-	1
+AZU1	JUN	predicted	-	0.54
+B2M	JUN	activate	->	1
+BACH2	JUN	predicted	-	0.98
+BAG1	JUN	complex; input	-	1
+BARX2	JUN	predicted	-	0.54
+BATF	JUN	predicted	-	0.98
+BATF3	JUN	activated by; complex; input	<-	1
+BCHE	JUN	expression regulated by	<-	1
+BCL2	JUN	GErel: expression by	<-	1
+BCL2A1	JUN	predicted	-	0.64
+BCL2L11	JUN	GErel: expression by	<-	1
+BCL3	JUN	predicted	-	0.64
+BCL6	JUN	expression regulates	->	1
+BCR	JUN	expression regulated by	<-	1
+BDKRB1	JUN	expression regulated by	<-	1
+BECN1	JUN	predicted	-	0.64
+BMT2	SESN2	reaction	-	1
+BRCA1	JUN	expression regulated by	<-	1
+BTG1	JUN	predicted	-	0.64
+BTK	JUN	activate	->	1
+BUB1B	JUN	PPrel: inhibition	-|	1
+C12ORF66	SESN2	complex; inhibite	-|	1
+CALCR	JUN	GErel: expression by	<-	1
+CAMP	JUN	PPrel: activated by	<-	1
+CARM1	JUN	PPrel: binding/association	-	1
+CASP9	JUN	predicted	-	0.54
+CASTOR1	SESN2	reaction	-	1
+CASTOR2	SESN2	reaction	-	1
+CBFB	JUN	predicted	-	0.64
+CBX5	JUN	expression regulated by	<-	1
+CCL1	JUN	predicted	-	0.54
+CCL11	JUN	predicted	-	0.54
+CCL13	JUN	predicted	-	0.54
+CCL14	JUN	predicted	-	0.99
+CCL15	JUN	predicted	-	0.54
+CCL15-CCL14	JUN	predicted	-	0.54
+CCL16	JUN	predicted	-	0.54
+CCL17	JUN	predicted	-	0.54
+CCL18	JUN	predicted	-	0.54
+CCL19	JUN	predicted	-	0.54
+CCL2	JUN	GErel: expression by; PPrel: activated by; expression regulated by	<-	1
+CCL20	JUN	expression regulated by	<-	1
+CCL21	JUN	predicted	-	0.54
+CCL22	JUN	expression regulated by	<-	1
+CCL23	JUN	predicted	-	0.54
+CCL24	JUN	predicted	-	0.54
+CCL25	JUN	predicted	-	0.54
+CCL26	JUN	predicted	-	0.54
+CCL3	JUN	GErel: expression by	<-	1
+CCL3L1	JUN	GErel: expression by	<-	1
+CCL4	JUN	GErel: expression by	<-	1
+CCL4L1	JUN	GErel: expression by	<-	1
+CCL5	JUN	GErel: expression by; PPrel: activated by; expression regulated by	<-	1
+CCL7	JUN	expression regulated by	<-	1
+CCL8	JUN	predicted	-	0.54
+CCN2	JUN	expression regulated by	<-	1
+CCND1	JUN	GErel: expression by; expression regulated by	<-	1
+CCND2	JUN	GErel: expression by	<-	1
+CCND3	JUN	GErel: expression by	<-	1
+CCNDBP1	JUN	predicted	-	0.64
+CCR5	JUN	expression regulated by	<-	1
+CCR7	JUN	expression regulated by	<-	1
+CD163	JUN	expression regulated by	<-	1
+CD1A	JUN	GErel: expression by	<-	1
+CD1B	JUN	GErel: expression by	<-	1
+CD1C	JUN	GErel: expression by	<-	1
+CD1D	JUN	GErel: expression by	<-	1
+CD1E	JUN	GErel: expression by	<-	1
+CD247	JUN	activate	->	1
+CD274	JUN	GErel: expression by	<-	1
+CD3D	JUN	activate	->	1
+CD3E	JUN	activate	->	1
+CD3G	JUN	activate	->	1
+CD4	JUN	expression regulated by	<-	1
+CD40	JUN	GErel: expression by	<-	1
+CD44	JUN	GErel: expression by	<-	1
+CD58	JUN	GErel: expression by	<-	1
+CD69	JUN	expression regulated by	<-	1
+CD80	JUN	expression regulated by	<-	1
+CD8A	JUN	activate	->	1
+CD8B	JUN	activate	->	1
+CDK4	JUN	GErel: expression by; reaction	<-	1
+CDK5	JUN	GErel: expression by; catalyze	<->	1
+CDK5R1	JUN	catalyze	->	1
+CDK6	JUN	predicted	-	0.54
+CDKN1A	JUN	expression regulated by	<-	1
+CEBPA	JUN	complex; input; predicted	-	1
+CEBPB	JUN	complex; input; reaction	-	1
+CEBPB	SESN2	expression regulates	->	1
+CEBPE	JUN	predicted	-	0.98
+CEBPG	JUN	predicted	-	0.98
+CHD3	JUN	reaction	-	1
+CHD4	JUN	reaction	-	1
+CHGA	JUN	expression regulated by	<-	1
+CHKA	JUN	PPrel: activated, indirect effect	<-	1
+CHKB	JUN	PPrel: activated, indirect effect	<-	1
+CHL1	JUN	expression regulated by	<-	1
+CITED1	JUN	predicted	-	0.64
+CITED2	JUN	activate; inhibited by	|->	1
+CLCN6	JUN	expression regulated by	<-	1
+CLIC1	JUN	expression regulated by	<-	1
+CLU	JUN	expression regulated by	<-	1
+CNTN1	JUN	expression regulated by	<-	1
+COL1A1	JUN	expression regulated by	<-	1
+COL1A2	JUN	expression regulated by	<-	1
+COL4A2	JUN	expression regulated by	<-	1
+COPS2	JUN	predicted	-	0.64
+COPS5	JUN	complex; input; reaction	-	1
+CREB1	JUN	GErel: expression; complex; expression regulates; input; reaction	->	1
+CREB3	JUN	GErel: expression	->	1
+CREB3L1	JUN	GErel: expression	->	1
+CREB3L2	JUN	GErel: expression	->	1
+CREB3L3	JUN	GErel: expression	->	1
+CREB3L4	JUN	GErel: expression	->	1
+CREB5	JUN	GErel: expression; expression regulated by	<->	1
+CREBBP	JUN	activate; complex; inhibited by; reaction	|->	1
+CREM	JUN	activated by; expression regulated by; inhibite; input	<-|	1
+CRKL	JUN	expression regulated by	<-	1
+CRTC1	JUN	complex; input	-	1
+CSF1R	JUN	predicted	-	0.54
+CSF2	JUN	GErel: expression by	<-	1
+CSK	JUN	predicted	-	0.64
+CSNK2A1	JUN	inhibite	-|	1
+CSPG4	JUN	expression regulated by	<-	1
+CSTB	JUN	expression regulated by	<-	1
+CTNNB1	JUN	GErel: expression; complex; input	->	1
+CTSH	JUN	expression regulated by	<-	1
+CTSK	JUN	GErel: expression by	<-	1
+CTSL	JUN	GErel: expression by	<-	1
+CX3CL1	JUN	predicted	-	0.54
+CXCL1	JUN	GErel: expression by; PPrel: activated by	<-	1
+CXCL10	JUN	predicted	-	0.54
+CXCL2	JUN	GErel: expression by; PPrel: activated by	<-	1
+CXCL3	JUN	GErel: expression by; PPrel: activated by	<-	1
+CXCL8	JUN	GErel: expression by; PPrel: activated by	<-	1
+CXCL9	JUN	predicted	-	0.54
+CYP11A1	JUN	expression regulated by	<-	1
+CYP19A1	JUN	expression regulated by	<-	1
+CYP27B1	JUN	expression regulated by	<-	1
+DAB2	JUN	expression regulated by	<-	1
+DACH1	JUN	predicted	-	0.64
+DBH	JUN	expression regulated by	<-	1
+DBP	JUN	predicted	-	0.98
+DCN	JUN	expression regulated by	<-	1
+DDAH1	JUN	expression regulated by	<-	1
+DDIT3	JUN	expression regulated by	<-	1
+DDX21	JUN	predicted	-	0.64
+DEFB104A	JUN	expression regulated by	<-	1
+DENND1A	JUN	expression regulated by	<-	1
+DEPDC5	SESN2	complex; inhibit	-|	1
+DHX9	JUN	predicted	-	0.64
+DKFZP586H0919	JUN	GErel: expression	->	1
+DKFZP686N2325	JUN	GErel: expression	->	1
+DKK1	JUN	expression regulated by	<-	1
+DMD	JUN	expression regulated by	<-	1
+DNMT3L	JUN	predicted	-	0.64
+DOCK9	JUN	expression regulated by	<-	1
+DPYSL3	JUN	expression regulated by	<-	1
+DUSP1	JUN	expression regulated by	<-	1
+DVL3	JUN	complex; input	-	1
+EAF2	JUN	expression regulated by	<-	1
+EBF1	JUN	expression regulated by	<-	1
+ECD	JUN	expression regulated by	<-	1
+EDF1	JUN	predicted	-	0.64
+EDN1	JUN	GErel: expression by; expression regulated by	<-	1
+EGFR	SESN2	predicted	-	0.64
+EGR1	JUN	activate; expression regulates; inhibited by	|->	1
+EGR2	JUN	activated by; complex; inhibite; input	<-|	1
+EGR3	JUN	activated by; inhibite	<-|	1
+EHHADH	JUN	expression regulated by	<-	1
+EIF4G2	JUN	expression regulated by	<-	1
+ELF1	JUN	predicted	-	0.64
+ELF3	JUN	predicted	-	0.64
+ELK1	JUN	activated by; reaction	<-	1
+ELN	JUN	expression regulated by	<-	1
+EN1	JUN	predicted	-	0.99
+ENPP2	JUN	expression regulated by	<-	1
+ENTPD1	JUN	GErel: expression by	<-	1
+ENTPD3	JUN	GErel: expression by	<-	1
+ENTPD8	JUN	GErel: expression by	<-	1
+EP300	JUN	complex; input; reaction	-	1
+EPAS1	JUN	predicted	-	0.64
+EPHB4	JUN	predicted	-	0.64
+ERBB3	JUN	expression regulated by	<-	1
+ERCC1	JUN	expression regulated by	<-	1
+ESM1	JUN	expression regulated by	<-	1
+ESR1	JUN	PPrel: binding/association; complex; expression regulates; input; reaction	->	1
+ESR2	JUN	PPrel: binding/association; complex; expression regulates	->	1
+ETS1	JUN	complex; expression regulated by; input; reaction	<-	1
+ETS2	JUN	complex; expression regulated by; expression regulates; input	<->	1
+ETV1	JUN	predicted	-	0.64
+ETV4	JUN	expression regulated by	<-	1
+ETV5	JUN	complex; input	-	1
+F3	JUN	GErel: expression by; expression regulated by	<-	1
+FABP3	JUN	expression regulated by	<-	1
+FANK1	JUN	expression regulated by	<-	1
+FAS	JUN	GErel: expression by	<-	1
+FASLG	JUN	GErel: expression by	<-	1
+FBXW7	JUN	predicted	-	0.99
+FCER1A	JUN	inhibite	-|	1
+FCER1G	JUN	inhibite	-|	1
+FCER2	JUN	GErel: expression by	<-	1
+FGF2	JUN	GErel: expression by	<-	1
+FGFBP1	JUN	expression regulated by	<-	1
+FHL2	JUN	expression regulated by	<-	1
+FN1	JUN	expression regulated by	<-	1
+FOS	JUN	PPrel: activated by; activated by; complex; expression regulated by; inhibited by; input; reaction	-	1
+FOSB	JUN	PPrel: binding/association; complex; input; predicted	-	1
+FOSL1	JUN	complex; expression regulated by; inhibite; input	<-|	1
+FOSL2	JUN	complex; input	-	1
+FOXA1	JUN	complex; input; reaction	-	1
+FOXA2	JUN	expression regulated by	<-	1
+FOXF1	JUN	expression regulated by	<-	1
+FOXP3	JUN	activated by; inhibite; input	<-|	1
+GAD1	JUN	predicted	-	0.64
+GATA2	JUN	complex; input; reaction	-	1
+GATA3	JUN	GErel: expression by; complex; input; reaction	<-	1
+GBA	JUN	expression regulated by	<-	1
+GCLC	JUN	predicted	-	0.64
+GCLM	JUN	predicted	-	0.64
+GGT5	JUN	expression regulated by	<-	1
+GJA1	JUN	expression regulated by	<-	1
+GM2A	JUN	expression regulated by	<-	1
+GNAL	OR5M1	PPrel: activated by; complex; input	<-	1
+GNB1	OR5M1	PPrel: activated by; complex; input	<-	1
+GNG13	OR5M1	PPrel: activated by	<-	1
+GNG7	OR5M1	PPrel: activated by	<-	1
+GNGT1	OR5M1	complex; input	-	1
+GNLY	JUN	expression regulated by	<-	1
+GNRH1	JUN	expression regulated by	<-	1
+GNRHR	JUN	expression regulated by	<-	1
+GREM1	JUN	expression regulated by	<-	1
+GRIA2	JUN	GErel: expression by	<-	1
+GRK2	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+GRK3	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+GSK3B	JUN	activate; inhibite	-	1
+GTF2A1	JUN	complex; input	-	1
+GTF2B	JUN	complex; input; predicted	-	1
+GTF2E2	JUN	predicted	-	0.64
+GTF2F1	JUN	predicted	-	0.64
+GTF2F2	JUN	predicted	-	0.64
+GTF3A	JUN	complex; input	-	1
+GYG1	JUN	expression regulated by	<-	1
+GZMB	JUN	predicted	-	0.77
+H1-3	JUN	expression regulated by	<-	1
+H1-5	JUN	expression regulated by	<-	1
+H2AC4	JUN	expression regulated by	<-	1
+H3-3A	JUN	complex; input	-	1
+H3C1	JUN	complex; input	-	1
+H4C1	JUN	complex; input	-	1
+HAMP	JUN	expression regulated by	<-	1
+HCFC1	JUN	predicted	-	0.64
+HCLS1	JUN	expression regulated by	<-	1
+HDAC1	JUN	activated by; inhibite; reaction	<-|	1
+HDAC2	JUN	reaction	-	1
+HDAC3	JUN	reaction	-	1
+HDAC5	JUN	reaction	-	1
+HDAC7	JUN	reaction	-	1
+HDGF	JUN	predicted	-	0.64
+HHEX	JUN	predicted	-	0.64
+HIF1A	JUN	reaction	-	1
+HIST1H2AC	JUN	expression regulated by	<-	1
+HIST2H3A	JUN	complex; input	-	1
+HLA-A	JUN	activate	->	1
+HLF	JUN	expression regulated by	<-	1
+HMGA1	JUN	predicted	-	0.64
+HOXA7	JUN	inhibit	-|	1
+HOXA9	JUN	predicted	-	0.99
+HOXB9	JUN	expression regulated by	<-	1
+HOXC8	JUN	predicted	-	0.99
+HOXD13	JUN	predicted	-	0.64
+HRAS	JUN	PPrel: indirect effect	-	1
+HRK	JUN	GErel: expression by	<-	1
+HSF2	JUN	complex; input	-	1
+HSP90AB1	JUN	expression regulated by	<-	1
+HSPA1B	JUN	expression regulated by	<-	1
+HSPA5	JUN	expression regulated by	<-	1
+HSPA8	JUN	predicted	-	0.64
+ICAM1	JUN	GErel: expression by; expression regulated by	<-	1
+ID1	JUN	expression regulated by	<-	1
+IFNA1	JUN	reaction	-	1
+IFNA10	JUN	reaction	-	1
+IFNA14	JUN	reaction	-	1
+IFNA16	JUN	reaction	-	1
+IFNA17	JUN	reaction	-	1
+IFNA2	JUN	reaction	-	1
+IFNA21	JUN	reaction	-	1
+IFNA4	JUN	reaction	-	1
+IFNA5	JUN	reaction	-	1
+IFNA6	JUN	reaction	-	1
+IFNA7	JUN	reaction	-	1
+IFNA8	JUN	reaction	-	1
+IFNAR1	JUN	expression regulated by; reaction	<-	1
+IFNAR2	JUN	reaction	-	1
+IFNB1	JUN	GErel: expression by; expression regulated by	<-	1
+IFNG	JUN	GErel: expression by	<-	1
+IGF1	JUN	expression regulated by	<-	1
+IGHE	JUN	inhibit	-|	1
+IKZF3	JUN	expression regulated by	<-	1
+IL10	JUN	GErel: expression by	<-	1
+IL11	JUN	predicted	-	0.64
+IL12A	JUN	GErel: expression by	<-	1
+IL12B	JUN	GErel: expression by; expression regulated by	<-	1
+IL12RB1	JUN	GErel: expression by	<-	1
+IL12RB2	JUN	GErel: expression by	<-	1
+IL13	JUN	GErel: expression by	<-	1
+IL18	JUN	PPrel: activated by	<-	1
+IL18R1	JUN	PPrel: activation, indirect effect	->	1
+IL18RAP	JUN	PPrel: activation, indirect effect	->	1
+IL1A	JUN	GErel: expression by	<-	1
+IL1B	JUN	GErel: expression by; PPrel: activated by	<-	1
+IL2	JUN	GErel: expression by	<-	1
+IL23A	JUN	predicted	-	0.54
+IL24	JUN	expression regulated by	<-	1
+IL2RA	JUN	GErel: expression by	<-	1
+IL4	JUN	GErel: expression by	<-	1
+IL4R	JUN	GErel: expression by	<-	1
+IL5	JUN	GErel: expression by; expression regulated by	<-	1
+IL6	JUN	GErel: expression by; PPrel: activated by	<-	1
+ILK	JUN	activate	->	1
+IRAK3	JUN	predicted	-	0.64
+IRF-1	JUN	complex; input	-	1
+IRF2	JUN	complex; input	-	1
+IRF3	JUN	complex; input	-	1
+IRF4	JUN	expression regulated by	<-	1
+IRF7	JUN	complex; input	-	1
+IRF8	JUN	expression regulated by	<-	1
+ITFG2	SESN2	complex; inhibite	-|	1
+ITGAL	JUN	GErel: expression by	<-	1
+ITGAX	JUN	expression regulated by	<-	1
+ITGB1BP1	JUN	expression regulated by	<-	1
+ITGB3	JUN	GErel: expression by	<-	1
+IVL	JUN	expression regulated by	<-	1
+JDP2	JUN	predicted	-	1
+JUN	JUNB	complex; input	-	1
+JUN	JUND	complex; expression regulates; input	->	1
+JUN	KAT2B	complex; input; predicted	-	1
+JUN	KCNH2	expression regulated by	<-	1
+JUN	KCNIP3	activate; inhibited by	|->	1
+JUN	KCNN3	expression regulates	->	1
+JUN	KDM5B	expression regulates	->	1
+JUN	KDM6A	complex; input	-	1
+JUN	KLF1	expression regulates	->	1
+JUN	KLF6	expression regulates	->	1
+JUN	KMT2C	complex; input	-	1
+JUN	KMT2D	complex; input	-	1
+JUN	KMT2E	expression regulates	->	1
+JUN	KRAS	PPrel: indirect effect	-	1
+JUN	KRT16	expression regulates	->	1
+JUN	LAMA4	expression regulates	->	1
+JUN	LAT	PPrel: activated, indirect effect	<-	1
+JUN	LATS1	expression regulates	->	1
+JUN	LBP	expression regulates	->	1
+JUN	LCP2	PPrel: activated, indirect effect	<-	1
+JUN	LEF1	GErel: expression by	<-	1
+JUN	LENEP	expression regulates	->	1
+JUN	LEPR	expression regulates	->	1
+JUN	LGR5	expression regulates	->	1
+JUN	LIMS1	expression regulates	->	1
+JUN	LMNA	expression regulates	->	1
+JUN	LMO2	expression regulates	->	1
+JUN	LMO7	expression regulates	->	1
+JUN	LOC728835	GErel: expression	->	1
+JUN	LOX	expression regulates	->	1
+JUN	LPAR1	activated by; expression regulates	<->	1
+JUN	LPAR2	activated by	<-	1
+JUN	LPAR3	activated by	<-	1
+JUN	LRRC32	expression regulates	->	1
+JUN	LTA	predicted	-	0.54
+JUN	LTBP2	expression regulates	->	1
+JUN	LYN	inhibited by	|-	1
+JUN	MACC1	expression regulates	->	1
+JUN	MAF	predicted	-	0.98
+JUN	MAF1	activated by; inhibit	<-|	1
+JUN	MAFB	complex; input	-	1
+JUN	MAFG	predicted	-	0.98
+JUN	MAFK	expression regulates	->	1
+JUN	MAP3K1	predicted	-	0.77
+JUN	MAPK1	GErel: expression by; PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; PPrel: phosphorylated by; activated by; catalyzed by; expression regulates; reaction	<->	1
+JUN	MAPK10	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; PPrel: indirect effect; PPrel: phosphorylated by; activated by; catalyzed by; complex	<-	1
+JUN	MAPK11	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; catalyzed by	<-	1
+JUN	MAPK12	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect	<-	1
+JUN	MAPK13	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; catalyzed by	<-	1
+JUN	MAPK14	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; activated by; catalyzed by; interaction	<-	1
+JUN	MAPK3	GErel: expression by; PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; PPrel: phosphorylated by; activated by; catalyzed by; reaction	<-	1
+JUN	MAPK7	GErel: expression by	<-	1
+JUN	MAPK8	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; PPrel: indirect effect; PPrel: phosphorylated by; activated by; catalyzed by; complex; inhibited by; interaction	-	1
+JUN	MAPK9	PPrel: activated by; PPrel: activated by, phosphorylation; PPrel: activated, indirect effect; PPrel: indirect effect; PPrel: phosphorylated by; activate; activated by; catalyzed by; complex; inhibited by	->	1
+JUN	MAPRE2	expression regulates	->	1
+JUN	MAPRE3	predicted	-	0.64
+JUN	MAT2A	expression regulates	->	1
+JUN	MAX	predicted	-	0.64
+JUN	MBD3	reaction	-	1
+JUN	MDM2	predicted	-	0.64
+JUN	ME2	expression regulates	->	1
+JUN	MECOM	reaction	-	1
+JUN	MED1	PPrel: binding/association; activated by; inhibite	<-|	1
+JUN	MEF2A	expression regulated by	<-	1
+JUN	MEF2B	reaction	-	1
+JUN	MEF2C	activate	->	1
+JUN	MEF2D	predicted; reaction	-	1
+JUN	MFGE8	predicted	-	0.54
+JUN	MGP	expression regulates	->	1
+JUN	MMP1	GErel: expression	->	1
+JUN	MMP12	expression regulates	->	1
+JUN	MMP13	expression regulates	->	1
+JUN	MMP2	GErel: expression; expression regulates	->	1
+JUN	MMP3	expression regulates	->	1
+JUN	MMP7	GErel: expression; expression regulates	->	1
+JUN	MMP9	GErel: expression; expression regulates	->	1
+JUN	MOK	predicted	-	0.64
+JUN	MS4A2	inhibited by	|-	1
+JUN	MT1A	expression regulates	->	1
+JUN	MT2A	expression regulates	->	1
+JUN	MTA1	reaction	-	1
+JUN	MTA2	reaction	-	1
+JUN	MTA3	reaction	-	1
+JUN	MTCH1	expression regulates	->	1
+JUN	MTF2	expression regulates	->	1
+JUN	MYBBP1A	predicted	-	0.64
+JUN	MYC	GErel: expression; expression regulates	->	1
+JUN	MYO16	expression regulates	->	1
+JUN	MYOD1	predicted	-	0.64
+JUN	NAT14	predicted	-	0.64
+JUN	NCOA1	complex	-	1
+JUN	NCOA2	predicted	-	0.64
+JUN	NCOA3	PPrel: binding/association; complex	-	1
+JUN	NCOA6	complex; input	-	1
+JUN	NCOR2	predicted	-	0.64
+JUN	NFATC1	GErel: expression; complex; inhibited by; input; reaction	|->	1
+JUN	NFATC2	complex; inhibited by; input; reaction	|-	1
+JUN	NFATC3	complex; inhibited by; input; reaction	|-	1
+JUN	NFE2	expression regulates	->	1
+JUN	NFE2L1	predicted	-	0.98
+JUN	NFE2L2	complex; input; predicted	-	1
+JUN	NFIA	activate; inhibited by	|->	1
+JUN	NFIB	activate; inhibited by	|->	1
+JUN	NFIC	activate; expression regulated by; inhibited by	->	1
+JUN	NFKB1	GErel: expression; PPrel: activated, indirect effect	<->	1
+JUN	NFYA	predicted	-	0.64
+JUN	NGF	expression regulates	->	1
+JUN	NKD1	activated by	<-	1
+JUN	NKRF	predicted	-	0.64
+JUN	NNMT	expression regulates	->	1
+JUN	NOCT	expression regulates	->	1
+JUN	NOL3	expression regulates	->	1
+JUN	NOP53	expression regulates	->	1
+JUN	NOS2	expression regulates	->	1
+JUN	NOS3	expression regulates	->	1
+JUN	NOTCH1	inhibited by	|-	1
+JUN	NOTCH3	expression regulates	->	1
+JUN	NPPA	expression regulates	->	1
+JUN	NPY	expression regulates	->	1
+JUN	NQO2	predicted	-	0.64
+JUN	NR0B2	activated by; expression regulates; inhibite	<-	1
+JUN	NR2E1	reaction	-	1
+JUN	NR2F1	activated by; inhibite	<-|	1
+JUN	NR2F6	predicted	-	0.64
+JUN	NR3C1	activate; complex; inhibited by; input; predicted; reaction	|->	1
+JUN	NR5A1	predicted	-	0.64
+JUN	NRAS	PPrel: indirect effect; expression regulates	->	1
+JUN	NRIP1	predicted	-	0.64
+JUN	NTF3	expression regulates	->	1
+JUN	NTS	expression regulates	->	1
+JUN	NUP214	expression regulates	->	1
+JUN	OXT	expression regulates	->	1
+JUN	OXTR	expression regulates	->	1
+JUN	PAGR1	complex; input	-	1
+JUN	PARP1	predicted	-	0.64
+JUN	PASD1	expression regulates	->	1
+JUN	PAXIP1	complex; input	-	1
+JUN	PCDHB11	expression regulates	->	1
+JUN	PDE5A	expression regulates	->	1
+JUN	PDGFA	GErel: expression	->	1
+JUN	PDGFB	GErel: expression	->	1
+JUN	PDGFRA	expression regulates	->	1
+JUN	PDGFRB	expression regulates	->	1
+JUN	PDHA1	expression regulates	->	1
+JUN	PDYN	expression regulates	->	1
+JUN	PENK	expression regulates	->	1
+JUN	PGF	GErel: expression	->	1
+JUN	PGR	expression regulated by	<-	1
+JUN	PHF21A	predicted	-	0.64
+JUN	PHOX2A	predicted	-	0.64
+JUN	PIAS1	predicted	-	0.64
+JUN	PICALM	expression regulates	->	1
+JUN	PIN1	predicted	-	0.64
+JUN	PITX3	expression regulates	->	1
+JUN	PLAT	expression regulates	->	1
+JUN	PLD1	expression regulates	->	1
+JUN	PLK3	predicted	-	0.64
+JUN	PMF1	expression regulates	->	1
+JUN	PML	predicted	-	0.64
+JUN	POLD2	expression regulates	->	1
+JUN	POLR2	complex; input; reaction	-	1
+JUN	POLR2A	complex	-	1
+JUN	POLR2B	complex	-	1
+JUN	POLR2C	complex	-	1
+JUN	POLR2D	complex	-	1
+JUN	POLR2E	complex	-	1
+JUN	POLR2F	complex	-	1
+JUN	POLR2G	complex	-	1
+JUN	POLR2H	complex	-	1
+JUN	POLR2I	complex	-	1
+JUN	POLR2J	complex	-	1
+JUN	POLR2K	complex	-	1
+JUN	POLR2L	complex	-	1
+JUN	POSTN	expression regulates	->	1
+JUN	POU1F1	expression regulates	->	1
+JUN	POU2F1	complex; input; reaction	-	1
+JUN	PPARA	activated by; complex; expression regulates; input	<->	1
+JUN	PPARD	GErel: expression	->	1
+JUN	PPARG	activate; activated by; inhibit; inhibited by; input	-	1
+JUN	PPARGC1A	inhibit	-|	1
+JUN	PPP1R15A	expression regulates	->	1
+JUN	PPP1R15B	expression regulates	->	1
+JUN	PPP2CA	predicted	-	0.64
+JUN	PPP2CB	predicted	-	0.64
+JUN	PPP2R5B	expression regulates	->	1
+JUN	PPP2R5C	expression regulates	->	1
+JUN	PRAME	expression regulates	->	1
+JUN	PRDM1	predicted	-	0.54
+JUN	PRKACA	PPrel: activated by, phosphorylation	<-	1
+JUN	PRKACB	PPrel: activated by, phosphorylation	<-	1
+JUN	PRKACG	PPrel: activated by, phosphorylation	<-	1
+JUN	PRKCB	expression regulates	->	1
+JUN	PRKCQ	reaction	-	1
+JUN	PRKD1	predicted	-	0.64
+JUN	PRKDC	predicted	-	0.64
+JUN	PRKN	GErel: repression	-|	1
+JUN	PSORS1C2	expression regulates	->	1
+JUN	PTGDS	expression regulates	->	1
+JUN	PTGER4	expression regulates	->	1
+JUN	PTGS1	expression regulates	->	1
+JUN	PTGS2	predicted	-	0.64
+JUN	PTPRB	expression regulates	->	1
+JUN	PXT1	expression regulates	->	1
+JUN	RACK1	predicted	-	0.64
+JUN	RALBP1	predicted	-	0.64
+JUN	RANBP1	expression regulates	->	1
+JUN	RARB	expression regulated by	<-	1
+JUN	RB1	complex; input	-	1
+JUN	RBBP4	reaction	-	1
+JUN	RBBP5	complex; input	-	1
+JUN	RBBP7	reaction	-	1
+JUN	RBPJ	expression regulates	->	1
+JUN	REL	expression regulated by	<-	1
+JUN	RELA	GErel: expression; PPrel: activated, indirect effect; complex; input; reaction	<->	1
+JUN	RELB	expression regulates	->	1
+JUN	RGS1	expression regulates	->	1
+JUN	RNF128	activate; inhibited by	|->	1
+JUN	RNF187	predicted	-	0.64
+JUN	RPS6KB1	PPrel: activated by, phosphorylation	<-	1
+JUN	RPS6KB2	PPrel: activated by, phosphorylation	<-	1
+JUN	RTN4	expression regulates	->	1
+JUN	RXRA	activated by; inhibite	<-|	1
+JUN	S100A10	expression regulates	->	1
+JUN	SALL4	reaction	-	1
+JUN	SATB1	predicted	-	0.64
+JUN	SATB2	predicted	-	0.64
+JUN	SDC2	activated by	<-	1
+JUN	SELE	GErel: expression; expression regulates	->	1
+JUN	SERPINB2	expression regulates	->	1
+JUN	SERPINE1	GErel: expression; expression regulates	->	1
+JUN	SFRP1	expression regulates	->	1
+JUN	SFTPA1	expression regulates	->	1
+JUN	SFTPD	expression regulates	->	1
+JUN	SIRT1	predicted	-	0.99
+JUN	SIX4	predicted	-	0.64
+JUN	SKI	predicted	-	0.64
+JUN	SLC38A6	expression regulates	->	1
+JUN	SLC3A2	expression regulates	->	1
+JUN	SLC40A1	expression regulates	->	1
+JUN	SLC6A2	expression regulates	->	1
+JUN	SLC7A11	expression regulates	->	1
+JUN	SMAD1	complex; input	-	1
+JUN	SMAD2	complex; input; reaction	-	1
+JUN	SMAD3	complex; expression regulated by; input; reaction	<-	1
+JUN	SMAD4	complex; expression regulated by; expression regulates; input; reaction	<->	1
+JUN	SMAD5	complex; input	-	1
+JUN	SMAD9	complex; input	-	1
+JUN	SMARCA2	predicted	-	0.54
+JUN	SMARCB1	predicted	-	0.54
+JUN	SMARCC1	predicted	-	0.64
+JUN	SMARCC2	complex; reaction	-	1
+JUN	SMARCE1	complex; predicted; reaction	-	1
+JUN	SNAI1	reaction	-	1
+JUN	SNAI2	reaction	-	1
+JUN	SNAPC5	predicted	-	0.64
+JUN	SNX5	expression regulates	->	1
+JUN	SOD1	expression regulates	->	1
+JUN	SOX10	predicted	-	0.64
+JUN	SOX8	predicted	-	0.99
+JUN	SP1	complex; expression regulated by; input; reaction	<-	1
+JUN	SPI1	expression regulates	->	1
+JUN	SPIB	predicted	-	0.64
+JUN	SPP1	expression regulates	->	1
+JUN	SPRR1A	expression regulates	->	1
+JUN	SPRR1B	expression regulates	->	1
+JUN	SPRR2A	expression regulates	->	1
+JUN	SPRR3	expression regulates	->	1
+JUN	SRA1	activated by; inhibite	<-|	1
+JUN	SRC	PPrel: activated by, phosphorylation	<-	1
+JUN	SS18	predicted	-	0.64
+JUN	STAT1	expression regulated by	<-	1
+JUN	STAT3	expression regulated by; reaction	<-	1
+JUN	STAT4	activate; complex; inhibited by; input; reaction	|->	1
+JUN	STRN3	expression regulates	->	1
+JUN	SUB1	expression regulates	->	1
+JUN	SULT2B1	expression regulates	->	1
+JUN	SUMO1	predicted	-	0.99
+JUN	SUMO3	predicted	-	0.64
+JUN	SYK	inhibited by	|-	1
+JUN	TAF1	predicted	-	0.64
+JUN	TAF4	predicted	-	0.64
+JUN	TAF7	predicted	-	0.64
+JUN	TBP	predicted	-	0.64
+JUN	TBX2	expression regulates	->	1
+JUN	TBX21	GErel: expression; reaction	->	1
+JUN	TBX4	expression regulates	->	1
+JUN	TCF12	expression regulates	->	1
+JUN	TCF20	predicted	-	0.64
+JUN	TCF4	predicted	-	0.64
+JUN	TCF7	GErel: expression by	<-	1
+JUN	TCF7L1	GErel: expression by	<-	1
+JUN	TCF7L2	GErel: expression by; complex; input	<-	1
+JUN	TCIRG1	expression regulates	->	1
+JUN	TDG	predicted	-	0.77
+JUN	TEAD1	predicted	-	0.64
+JUN	TFF1	expression regulates	->	1
+JUN	TFPI2	expression regulates	->	1
+JUN	TFRC	expression regulates	->	1
+JUN	TGFB1	GErel: expression; expression regulates	->	1
+JUN	THAP7	expression regulates	->	1
+JUN	THBD	GErel: expression	->	1
+JUN	TIMP1	expression regulates	->	1
+JUN	TIMP2	expression regulates	->	1
+JUN	TLR2	PCrel: activated, indirect effect	<-	1
+JUN	TLR4	PCrel: activated, indirect effect; expression regulates	<->	1
+JUN	TLR9	predicted	-	0.54
+JUN	TM4SF1	expression regulates	->	1
+JUN	TNC	expression regulates	->	1
+JUN	TNF	GErel: expression; PPrel: activation; expression regulates	->	1
+JUN	TNFAIP1	expression regulates	->	1
+JUN	TNFAIP3	GErel: expression	->	1
+JUN	TNFAIP6	expression regulates	->	1
+JUN	TNFRSF10A	expression regulates	->	1
+JUN	TNFRSF10B	expression regulates	->	1
+JUN	TNFRSF1A	expression regulates	->	1
+JUN	TNFSF10	predicted	-	0.54
+JUN	TNFSF11	predicted	-	0.54
+JUN	TNNI3	expression regulates	->	1
+JUN	TOP1	predicted	-	0.64
+JUN	TOP2A	predicted	-	0.64
+JUN	TOX2	expression regulates	->	1
+JUN	TP53	GErel: expression; activated by; complex; expression regulates; inhibite; input; reaction	<-	1
+JUN	TPM1	expression regulates; predicted	->	1
+JUN	TPM2	predicted	-	0.99
+JUN	TRAV3	activated by	<-	1
+JUN	TRB	activated by	<-	1
+JUN	TRIB1	expression regulates	->	1
+JUN	TRIP4	predicted	-	0.64
+JUN	TRIP6	complex; input; reaction	-	1
+JUN	TSG101	predicted	-	0.64
+JUN	TSHB	expression regulates	->	1
+JUN	TWF2	expression regulates	->	1
+JUN	TXLNG	activate; inhibited by	|->	1
+JUN	TXN	expression regulates	->	1
+JUN	UBC	predicted	-	0.77
+JUN	UBE2I	predicted	-	0.99
+JUN	UGT2B17	expression regulates	->	1
+JUN	USP9X	predicted	-	0.64
+JUN	VAV1	PPrel: activated, indirect effect	<-	1
+JUN	VAV2	PPrel: activated, indirect effect	<-	1
+JUN	VAV3	PPrel: activated, indirect effect	<-	1
+JUN	VCAM1	GErel: expression; expression regulates	->	1
+JUN	VDR	predicted	-	0.64
+JUN	VEGFA	GErel: expression; expression regulates	->	1
+JUN	VEGFB	GErel: expression	->	1
+JUN	VEGFC	GErel: expression	->	1
+JUN	VEGFD	GErel: expression	->	1
+JUN	VIM	GErel: expression; expression regulates	->	1
+JUN	VIP	expression regulates	->	1
+JUN	WDR5	complex; input	-	1
+JUN	WFDC1	expression regulates	->	1
+JUN	XCL1	predicted	-	0.54
+JUN	XCL2	predicted	-	0.54
+JUN	YWHAH	predicted	-	0.64
+JUN	ZBTB21	expression regulates	->	1
+JUN	ZBTB7C	predicted	-	0.64
+JUN	ZC3H4	expression regulates	->	1
+JUN	ZEB1	expression regulates	->	1
+JUN	ZNF131	expression regulates	->	1
+JUN	ZNF217	expression regulates	->	1
+JUN	ZNF593	expression regulates	->	1
+KEAP1	SESN2	predicted	-	0.64
+KPTN	SESN2	complex; inhibite	-|	1
+LAMTOR1	SESN2	activated by	<-	1
+LAMTOR2	SESN2	activated by	<-	1
+LAMTOR3	SESN2	activated by	<-	1
+LAMTOR4	SESN2	activated by	<-	1
+LAMTOR5	SESN2	activated by	<-	1
+MIOS	SESN2	PPrel: inhibited by; complex; inhibite	|-|	1
+MLST8	SESN2	activated by	<-	1
+MTOR	SESN2	activated by	<-	1
+NPRL2	SESN2	complex; inhibite	-|	1
+NPRL3	SESN2	complex; inhibite	-|	1
+OR5M1	PRKACA	PPrel: inhibited by, phosphorylated by	|-	1
+OR5M1	PRKACB	PPrel: inhibited by, phosphorylated by	|-	1
+OR5M1	PRKACG	PPrel: inhibited by, phosphorylated by	|-	1
+OR5M1	REEP1	activated by	<-	1
+OR5M1	RTP1	activated by	<-	1
+OR5M1	RTP2	activated by	<-	1
+PRDX1	SESN2	complex; input	-	1
+PRKAA1	SESN2	PPrel: activated by; complex; input	<-	1
+PRKAA2	SESN2	PPrel: activated by; complex; input	<-	1
+PRKAB1	SESN2	PPrel: activated by; complex; input	<-	1
+PRKAB2	SESN2	PPrel: activated by; complex; input	<-	1
+PRKAG1	SESN2	PPrel: activated by; complex; input	<-	1
+PRKAG2	SESN2	PPrel: activated by; complex; input	<-	1
+PRKAG3	SESN2	PPrel: activated by; complex; input	<-	1
+RHEB	SESN2	activated by	<-	1
+RPTOR	SESN2	activated by	<-	1
+RRAGA	SESN2	activated by	<-	1
+RRAGB	SESN2	activated by	<-	1
+RRAGC	SESN2	activated by	<-	1
+RRAGD	SESN2	activated by	<-	1
+SEC13	SESN2	PPrel: inhibited by; complex; inhibit	|-|	1
+SEH1L	SESN2	PPrel: inhibited by; complex; inhibite	|-|	1
+SESN2	SQSTM1	predicted	-	0.77
+SESN2	SZT2	complex; inhibited by	|-	1
+SESN2	TCIRG1	activate	->	1
+SESN2	TP53	GErel: expression by	<-	1
+SESN2	TSC1	predicted	-	0.99
+SESN2	TSC2	predicted	-	0.99
+SESN2	WDR24	PPrel: inhibition; complex; inhibited by	|-|	1
+SESN2	WDR59	PPrel: inhibition; complex; inhibited by	|-|	1

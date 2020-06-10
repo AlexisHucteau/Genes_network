@@ -1,0 +1,287 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r, FALSE}
+setwd("~/JOBIM_Network/Transcriptomes/")
+rawDataDir <- "DATA_Transcriptomes/"
+
+# library(affy)
+library(sva)
+library(limma)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(matrixStats)
+library(genefilter)
+library(openxlsx)
+# BiocManager::install("pd.hugene.2.0.st")
+library(hugene20sttranscriptcluster.db)
+library(oligo)
+
+SDRF <- read.csv(file = "Samplesheet_Transcriptomes/Samplesheet.csv")
+celFiles <- list.celfiles(rawDataDir, full.names = TRUE)
+# data <- oligo::read.celfiles(filenames = file.path(rawDataDir, SDRF$Array.Data.File), verbose = FALSE, phenoData = SDRF, checkType = FALSE)
+
+data <- read.celfiles(celFiles)
+eset <- oligo::rma(data) # si non normalisé
+my_frame <- as.data.frame(exprs(eset))
+```
+
+```{r}
+Annot <- data.frame(ACCNUM = sapply(contents(hugene20sttranscriptclusterACCNUM), paste, collapse = ", "), SYMBOL = sapply(contents(hugene20sttranscriptclusterSYMBOL), paste, collapse = ", "), DESC = sapply(contents(hugene20sttranscriptclusterGENENAME), paste, collapse = ", "))
+all <- merge(Annot, my_frame, by.y = 0, by.x = 0, all = T)
+```
+
+```{r}
+TS <- paste(SDRF$Characteristics.genotype., SDRF$Characteristics.treatment., sep = ".")
+TS <- factor(TS, levels = c("WT.HG", "WT.octyl", "WT.None", "Mut.None"))
+design <- model.matrix(~ 0 + TS)
+colnames(design) <- levels(TS)
+fit <- lmFit(eset, design)
+```
+
+```{r}
+cont.matrix <- makeContrasts(
+  WT.None.vsMut.None = Mut.None - WT.None,
+  WT.None.vsWT.HG = WT.HG - WT.None,
+  WT.HGvsMut.None = Mut.None - WT.HG,
+  WT.NonevsWT.Octyl = WT.octyl - WT.None,
+  WT.HGvsWT.octyl = WT.octyl - WT.HG,
+  levels = design
+)
+```
+
+```{r}
+fit2 <- contrasts.fit(fit, cont.matrix)
+fit2 <- eBayes(fit2)
+topTable_genes <- topTable(fit2)
+tp_annoted <- merge(Annot, topTable_genes, by.y = 0, by.x = 0, all.x = FALSE, all.y = TRUE)
+results <- decideTests(fit2)
+vennDiagram(results)
+```
+
+```{r}
+fit.contrast <- contrasts.fit(fit, cont.matrix)
+efit.contrast <- eBayes(fit.contrast)
+par(mfrow = c(2, 4))
+for (i in 1:ncol(efit.contrast$p.value)) {
+  hist(efit.contrast$p.value[, i], main = colnames(efit.contrast$p.value)[i], breaks = 100)
+}
+```
+```{r}
+Genes_values <- list()
+Genes_values[["UP"]] <- list()
+Genes_values[["DOWN"]] <- list()
+```
+
+
+```{r}
+library(data.table)
+
+# Select the contrast
+colnames(cont.matrix)
+number <- 5
+colnames(cont.matrix)[number]
+
+# get all the list   #coef parameter = contrast
+genes <- Annot$SYMBOL
+select <- sapply(genes, function(gene) {
+  !is.null(gene)
+})
+genes <- genes[select]
+
+all_val <- topTable(efit.contrast, coef = number, adjust.method = "BY", n = Inf, genelist = genes)
+select_na <- sapply(all_val$ID, function(gene) {
+  !(str_detect(gene, "NA"))
+})
+all_val <- all_val[select_na, ]
+hist(all_val$logFC, main = paste0("Distribution of differential expression value ", colnames(cont.matrix)[number]), pch = 19, breaks = 10000)
+```
+
+```{r}
+# "threshold" for the logFC threshold
+threshold <- 0.75
+# "pvalue" for the pvalue threshold
+pvalue <- 0.1
+signif <- all_val[which(all_val$logFC <= -threshold | all_val$logFC >= threshold), ]
+hist(signif$logFC, main = paste0("Distribution of differential expression value ", colnames(cont.matrix)[number]), pch = 19, breaks = 1000)
+hist(signif$P.Value, main = paste0("Distribution of differential expression P.value ", colnames(cont.matrix)[number]), pch = 19, breaks = 100)
+```
+
+```{r}
+signif <- signif[which(signif$P.Value <= pvalue), ]
+efit.contrast$genes <- as.character(genes)
+
+volcano_names <- ifelse(abs(efit.contrast$coefficients) >= 0.2 & efit.contrast$genes != "NA",
+  efit.contrast$genes, ""
+)
+getwd()
+dir.create(paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number]), showWarnings = FALSE)
+dir.create(paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values"), showWarnings = FALSE)
+png(file = paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values/volcano_plot.png"))
+par(mfrow = c(1, 1))
+volcanoplot(efit.contrast,
+  coef = number, style = "p-value", highlight = 150,
+  names = volcano_names,
+  xlab = "Log2 Fold Change", ylab = NULL, pch = 16, cex = 0.35,
+  main = colnames(cont.matrix)[number]
+)
+dev.off()
+par(mfrow = c(1, 1))
+volcanoplot(efit.contrast,
+  coef = number, style = "p-value", highlight = 150,
+  names = volcano_names,
+  xlab = "Log2 Fold Change", ylab = NULL, pch = 16, cex = 0.35,
+  main = colnames(cont.matrix)[number]
+)
+```
+
+```{r}
+UP <- signif[which(signif$logFC > 0), ] # UP
+UP <- UP[order(UP$logFC, decreasing = T), ]
+nrow(UP)
+genes_up <- UP$ID
+transit <- tstrsplit(as.vector(genes_up), "_///_")
+genes_up <- c(transit[[1]]) # ,transit[[4]])
+genes_up <- genes_up[which(genes_up != "NA")]
+length(genes_up)
+write.table(t(genes_up), paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values/UP_pval_", pvalue, "_logFC_", threshold, ".csv"), row.names = F, col.names = F, quote = F, sep = "\t")
+write.table(genes_up, paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values/UP_pval_", pvalue, "_logFC_", threshold, "cytos.csv"), row.names = F, col.names = F, quote = F, sep = "\t")
+Genes_values[["UP"]][[colnames(cont.matrix)[number]]] <- genes_up
+
+# DOWN
+DOWN <- signif[which(signif$logFC < 0), ] # DOWN
+DOWN <- DOWN[order(DOWN$logFC, decreasing = T), ]
+nrow(DOWN)
+genes_down <- DOWN$ID
+transit <- tstrsplit(as.vector(genes_down), "_///_")
+genes_down <- c(transit[[1]]) # ,transit[[4]])
+genes_down <- genes_down[which(genes_down != "NA")]
+length(genes_down)
+write.table(t(genes_down), paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values/DOWN_pval_", pvalue, "_logFC_", threshold, ".csv"), row.names = F, col.names = F, quote = F, sep = "\t")
+write.table(genes_down, paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values/DOWN_pval_", pvalue, "_logFC_", threshold, "cytos.csv"), row.names = F, col.names = F, quote = F, sep = "\t")
+Genes_values[["DOWN"]][[colnames(cont.matrix)[number]]] <- genes_down
+
+```
+
+```{r}
+up_entrez <- AnnotationDbi::select(org.Hs.eg.db, keys = genes_up, keytype = "SYMBOL", columns = c("SYMBOL", "ENTREZID"))
+up_entrez <- up_entrez$ENTREZID
+up_entrez <- up_entrez[which(!(is.na(up_entrez)))]
+goana_UP <- goana(de = up_entrez, geneid = up_entrez, FDR = 0.95, species = "Hs")
+goana_UP <- goana_UP[order(goana_UP$P.DE), ]
+View(goana_UP)
+head(goana_UP)
+dir.create(paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/GO"), showWarnings = FALSE)
+write.table(goana_UP, paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/GO/UP.csv"), row.names = T, col.names = T, quote = T, sep = "\t")
+
+down_entrez <- AnnotationDbi::select(org.Hs.eg.db, keys = genes_down, keytype = "SYMBOL", columns = c("SYMBOL", "ENTREZID"))
+down_entrez <- down_entrez$ENTREZID
+down_entrez <- down_entrez[which(!(is.na(down_entrez)))]
+goana_DOWN <- goana(de = down_entrez, geneid = down_entrez, FDR = 0.95, species = "Hs")
+goana_DOWN <- goana_DOWN[order(goana_DOWN$P.DE), ]
+View(goana_DOWN)
+head(goana_DOWN)
+write.table(goana_DOWN, paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/GO/DOWN.csv"), row.names = T, col.names = T, quote = T, sep = "\t")
+```
+
+```{r}
+Genes_of_interest <- c("Akt", "PGC1A", "FTO", "MEF2C", "CPT1A", "CPT1a", "CPT1B", "CPT1b", "CPT1C", "CPT1c", "SLC25A20", "CPT2", "CEBPA", "CEBPa", "CEBPB", "CEBPb", "ARID1", "PPARgamma", "PPARA", "PPARalpha", "RXRA", "RXRa", "CPT")
+
+selected_row <- sapply(all_val$ID, function(gene) {
+  gene %in% Genes_of_interest
+})
+Selected_genes_val <- all_val[selected_row, ]
+select <- sapply(all$SYMBOL, function(gene) {
+  gene %in% Genes_of_interest
+})
+selected_values <- all[select,]
+selected_values <- selected_values[,c(3,5:16)]
+
+WT_selected <- selected_values[, c(1, 8,9,10)]
+Octyl_selected <- selected_values[, c(1, 3, 5, 6)]
+HG_selected <- selected_values[, c(1, 2, 4, 7)]
+Mut_selected <- selected_values[, c(1, 11, 12, 13)]
+WT_selected$Mean <- (WT_selected[, 2] + WT_selected[, 3] + WT_selected[, 4]) / 3
+WT_selected <- WT_selected[,c(1,5)]
+Octyl_selected$Mean <- (Octyl_selected[, 2] + Octyl_selected[, 3] + Octyl_selected[, 4]) / 3
+Octyl_selected <- Octyl_selected[,c(1,5)]
+HG_selected$Mean <- (HG_selected[, 2] + HG_selected[, 3] + HG_selected[, 4]) / 3
+HG_selected <- HG_selected[,c(1,5)]
+Mut_selected$Mean <- (Mut_selected[, 2] + Mut_selected[, 3] + Mut_selected[, 4]) / 3
+Mut_selected <- Mut_selected[,c(1,5)]
+Merged_selected <- merge(x = WT_selected, y = HG_selected, by.x = "SYMBOL", by.y = "SYMBOL")
+Merged_selected <- merge(x = Merged_selected, y = Octyl_selected, by.x = "SYMBOL", by.y = "SYMBOL")
+colnames(Merged_selected) <- c("SYMBOL", "WT", "HG","Octyl")
+Merged_selected <- merge(x = Merged_selected, y = Mut_selected, by.x = "SYMBOL", by.y = "SYMBOL")
+colnames(Merged_selected) <- c("SYMBOL", "WT", "HG","Octyl", "Mut")
+
+
+Selected_genes_val <- Selected_genes_val[,c(1,2,5)]
+Selected_genes_val <- merge(x = Selected_genes_val, y = Merged_selected, by.x = "ID", by.y = "SYMBOL")
+Selected_genes_val <- Selected_genes_val[order(Selected_genes_val$P.Value),]
+write.csv(Selected_genes_val, paste0("../Results_Transcriptomes/", colnames(cont.matrix)[number], "/Genes_values/Selected_Genes.csv"), row.names = F, quote = T)
+
+Selected_genes_val
+```
+
+```{r}
+WT <- all[, c(1, 2, 3, 4, 11, 12, 13)]
+Octyl <- all[, c(1, 2, 3, 4, 6, 8, 9)]
+HG <- all[, c(1, 2, 3, 4, 5, 7, 10)]
+MUT <- all[, c(1, 2, 3, 4, 14, 15 ,16)]
+
+select <- sapply(Octyl$SYMBOL, function(Symbol) {
+  !str_detect(Symbol, "NA")
+})
+
+WT <- WT[select, ]
+Octyl <- Octyl[select, ]
+HG <- HG[select, ]
+MUT <- MUT[select, ]
+
+WT$Mean <- (WT[, 5] + WT[, 6] + WT[, 7]) / 3
+Octyl$Mean <- (Octyl[, 5] + Octyl[, 6] + Octyl[, 7]) / 3
+HG$Mean <- (HG[, 5] + HG[, 6] + HG[, 7]) / 3
+MUT$Mean <- (MUT[, 5] + MUT[, 6] + MUT[, 7]) / 3
+
+WT_VS_HG <- data.frame(Row.names = WT$Row.names, WT = WT$Mean, HG = HG$Mean, ACCNUM = HG$ACCNUM, SYMBOL = HG$SYMBOL, DESC = HG$DESC)
+WT_VS_Octyl <- data.frame(Row.names = WT$Row.names, WT = WT$Mean, Octyl = Octyl$Mean, ACCNUM = HG$ACCNUM, SYMBOL = HG$SYMBOL, DESC = HG$DESC)
+Octyl_VS_HG <- data.frame(Row.names = WT$Row.names, Octyl = Octyl$Mean, HG = Octyl$Mean, ACCNUM = HG$ACCNUM, SYMBOL = HG$SYMBOL, DESC = HG$DESC)
+WT_VS_MUT <- data.frame(Row.names = WT$Row.names, WT = WT$Mean, MUT = MUT$Mean, ACCNUM = MUT$ACCNUM, SYMBOL = MUT$SYMBOL, DESC = MUT$DESC)
+WT_HG_VS_MUT <- data.frame(Row.names = HG$Row.names, HG = HG$Mean, MUT = MUT$Mean, ACCNUM = MUT$ACCNUM, SYMBOL = MUT$SYMBOL, DESC = MUT$DESC)
+
+write.csv(WT_VS_HG, file = "../Results_Transcriptomes/WT_VS_HG.csv", row.names = FALSE)
+write.csv(WT_VS_Octyl, file = "../Results_Transcriptomes/WT_VS_Octyl.csv", row.names = FALSE)
+write.csv(Octyl_VS_HG, file = "../Results_Transcriptomes/Octyl_VS_HG.csv", row.names = FALSE)
+write.csv(WT_VS_MUT, file = "../Results_Transcriptomes/WT_VS_MUT.csv", row.names = FALSE)
+write.csv(WT_HG_VS_MUT, file = "../Results_Transcriptomes/WT_HG_VS_MUT.csv", row.names = FALSE)
+
+system("say finished")
+```
+
+```{r}
+library(VennDiagram)
+library(RColorBrewer)
+myCol <- brewer.pal(5, "Pastel2")
+venn.diagram(x = Genes_values[["UP"]],
+            category.names = c("WT_MUT", "WT_HG", "HG_MUT", "WT_Octyl", "HG_Octyl"),
+            filename = '../Results_Transcriptomes/Genes that are up regulated for each comparison',
+            output = FALSE,
+            fill = myCol,
+            imagetype = "png"
+)
+
+venn.diagram(x = Genes_values[["DOWN"]],
+            category.names = c("WT_MUT", "WT_HG", "HG_MUT", "WT_Octyl", "HG_Octyl"),
+            filename = '../Results_Transcriptomes/Genes that are down regulated for each comparison',
+            output = FALSE,
+            fill = myCol,
+            imagetype = "png"
+)
+```
+

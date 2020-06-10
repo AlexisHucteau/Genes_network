@@ -1,0 +1,176 @@
+from	to	Annotation	Direction	Score
+ABCA1	NFATC2	predicted	-	0.54
+AZU1	PRTN3	predicted	-	0.92
+BATF3	NFATC2	activated by; complex; input	<-	1
+CABIN1	NFATC2	input	-	1
+CALM3	NFATC2	activate; complex; reaction	->	1
+CAMP	PRTN3	catalyzed by	<-	1
+CAPN2	NFATC2	predicted	-	0.54
+CASP3	NFATC2	activate	->	1
+CBFB	NFATC2	complex; input; reaction	-	1
+CD177	PRTN3	complex	-	1
+CD274	NFATC2	GErel: expression by	<-	1
+CDC42	NFATC2	activate	->	1
+CDK4	NFATC2	GErel: expression by	<-	1
+CEBPB	LYZ	expression regulates	->	1
+CREB1	NFATC2	predicted	-	0.64
+CREBBP	NFATC2	complex; input	-	1
+CREM	NFATC2	activated by; complex; input	<-	1
+CSF2	NFATC2	GErel: expression by; PPrel: indirect effect	<-	1
+CSNK1A1	NFATC2	activate; complex; input	->	1
+CTSG	PRTN3	predicted	-	0.92
+CXCL1	NFATC2	GErel: expression by	<-	1
+CXCL2	NFATC2	GErel: expression by	<-	1
+CXCL3	NFATC2	GErel: expression by	<-	1
+CXCL8	NFATC2	GErel: expression by	<-	1
+E2F1	NFATC2	activate; inhibited by	|->	1
+EGR1	NFATC2	complex; input	-	1
+EGR2	NFATC2	GErel: expression by; activated by; inhibit	<-|	1
+EGR3	NFATC2	GErel: expression by; activated by; inhibit	<-|	1
+EGR4	NFATC2	complex; input	-	1
+ELANE	PRTN3	predicted	-	0.92
+ELF1	NFATC2	predicted	-	0.64
+EP300	NFATC2	complex; expression regulates; input	->	1
+ETS1	LYZ	expression regulates	->	1
+F2R	PRTN3	predicted	-	0.64
+F2RL1	PRTN3	predicted	-	0.64
+FCER1A	NFATC2	activate	->	1
+FCER1G	NFATC2	activate	->	1
+FGF2	NFATC2	GErel: expression by	<-	1
+FKBP1A	NFATC2	inhibit	-|	1
+FOS	NFATC2	complex; inhibited by; input	|-	1
+FOSL1	NFATC2	complex; input	-	1
+FOXP3	NFATC2	activated by; complex; input	<-	1
+GATA3	NFATC2	GErel: expression by; reaction	<-	1
+GATA4	NFATC2	PPrel: binding/association	-	1
+GSK3B	NFATC2	PPrel: inhibition, phosphorylation; activate	-	1
+IFNA1	NFATC2	reaction	-	1
+IFNA10	NFATC2	reaction	-	1
+IFNA14	NFATC2	reaction	-	1
+IFNA16	NFATC2	reaction	-	1
+IFNA17	NFATC2	reaction	-	1
+IFNA2	NFATC2	reaction	-	1
+IFNA21	NFATC2	reaction	-	1
+IFNA4	NFATC2	reaction	-	1
+IFNA5	NFATC2	reaction	-	1
+IFNA6	NFATC2	reaction	-	1
+IFNA7	NFATC2	reaction	-	1
+IFNA8	NFATC2	reaction	-	1
+IFNAR1	NFATC2	reaction	-	1
+IFNAR2	NFATC2	reaction	-	1
+IFNG	NFATC2	GErel: expression by	<-	1
+IGHE	NFATC2	activate	->	1
+IGHV2-26	LYZ	predicted	-	0.97
+IGHV2-5	LYZ	predicted	-	0.97
+IGHV2-70	LYZ	predicted	-	0.97
+IGHV2-70D	LYZ	predicted	-	0.97
+IGHV4-28	LYZ	predicted	-	0.97
+IGHV4-30-2	LYZ	predicted	-	0.97
+IGHV4-30-4	LYZ	predicted	-	0.97
+IGHV4-31	LYZ	predicted	-	0.97
+IGHV4-34	LYZ	predicted	-	0.97
+IGHV4-38-2	LYZ	predicted	-	0.97
+IGHV4-39	LYZ	predicted	-	0.97
+IGHV4-4	LYZ	predicted	-	0.97
+IGHV4-59	LYZ	predicted	-	0.97
+IGHV4-61	LYZ	predicted	-	0.97
+IGHV6-1	LYZ	predicted	-	0.97
+IKBKB	LYZ	predicted	-	0.64
+IL10	NFATC2	GErel: expression by	<-	1
+IL12B	NFATC2	predicted	-	0.54
+IL12RB1	NFATC2	GErel: expression by	<-	1
+IL12RB2	NFATC2	GErel: expression by	<-	1
+IL13	NFATC2	GErel: expression by	<-	1
+IL17A	NFATC2	GErel: expression by	<-	1
+IL17D	NFATC2	GErel: expression by	<-	1
+IL17F	NFATC2	GErel: expression by	<-	1
+IL1B	PRTN3	predicted	-	0.64
+IL2	NFATC2	GErel: expression by	<-	1
+IL21	NFATC2	GErel: expression by	<-	1
+IL22	NFATC2	GErel: expression by	<-	1
+IL26	NFATC2	predicted	-	0.54
+IL2RA	NFATC2	GErel: expression by	<-	1
+IL32	PRTN3	complex; input	-	1
+IL4	NFATC2	GErel: expression by	<-	1
+IL4R	NFATC2	GErel: expression by	<-	1
+IL5	NFATC2	GErel: expression by	<-	1
+IRF4	NFATC2	complex; input	-	1
+IRF5	NFATC2	predicted	-	0.54
+IRF8	LYZ	predicted	-	0.54
+IRF8	PRTN3	predicted	-	0.54
+JUN	NFATC2	complex; inhibited by; input; reaction	|-	1
+JUNB	NFATC2	complex; input	-	1
+LAT	NFATC2	PPrel: activation, indirect effect	->	1
+LCN1	LYZ	predicted	-	0.64
+LCP2	NFATC2	PPrel: activation, indirect effect	->	1
+LITAF	NFATC2	predicted	-	0.54
+LTF	LYZ	predicted	-	0.64
+MAF	NFATC2	complex; input	-	1
+MAP3K8	NFATC2	activate	->	1
+MAPK1	NFATC2	PPrel: activation	->	1
+MAPK11	NFATC2	PPrel: activation, indirect effect	->	1
+MAPK12	NFATC2	PPrel: activation, indirect effect	->	1
+MAPK13	NFATC2	PPrel: activation, indirect effect	->	1
+MAPK14	NFATC2	PPrel: activation, indirect effect; activate; interaction	->	1
+MAPK3	NFATC2	PPrel: activation	->	1
+MAPK8	NFATC2	activate	->	1
+MAPK9	NFATC2	activated by; inhibit	<-|	1
+MEF2A	NFATC2	PPrel: binding/association	-	1
+MEF2B	NFATC2	PPrel: binding/association	-	1
+MEF2C	NFATC2	PPrel: binding/association	-	1
+MEF2D	NFATC2	PPrel: binding/association; complex; input	-	1
+MNDA	PYCARD	predicted	-	0.97
+MNDA	RB1	predicted	-	0.77
+MNDA	RBL2	predicted	-	0.77
+MNDA	SP1	expression regulated by	<-	1
+MNDA	SPI1	expression regulated by	<-	1
+MNDA	TOPORS	predicted	-	0.54
+MNDA	TP53BP1	predicted	-	0.54
+MS4A2	NFATC2	activate	->	1
+MYF5	NFATC2	predicted	-	0.54
+MYF6	NFATC2	predicted	-	0.54
+MYH6	NFATC2	GErel: expression by	<-	1
+MYH7	NFATC2	GErel: expression by	<-	1
+MYOD1	NFATC2	predicted	-	0.54
+MYOG	NFATC2	predicted	-	0.54
+NFATC1	NFATC2	reaction	-	1
+NFATC2	NFATC2IP	predicted	-	0.54
+NFATC2	NFATC3	reaction	-	1
+NFATC2	NOTCH2	predicted	-	0.54
+NFATC2	NPPB	GErel: expression	->	1
+NFATC2	NUP214	activated by	<-	1
+NFATC2	POU2F1	reaction	-	1
+NFATC2	PPARG	activate; complex; input	->	1
+NFATC2	PPIA	inhibited by	|-	1
+NFATC2	PPP3CA	PPrel: activated by, dephosphorylation; PPrel: dephosphorylated; catalyzed by; complex; input	<-	1
+NFATC2	PPP3CB	PPrel: activated by, dephosphorylation; PPrel: dephosphorylated; catalyzed by; complex; input	<-	1
+NFATC2	PPP3CC	PPrel: activated by, dephosphorylation; PPrel: dephosphorylated; catalyzed by	<-	1
+NFATC2	PPP3R1	PPrel: activated by, dephosphorylation; PPrel: dephosphorylated; catalyzed by; complex; input	<-	1
+NFATC2	PPP3R2	PPrel: activated by, dephosphorylation; PPrel: dephosphorylated; catalyzed by	<-	1
+NFATC2	PRKACA	activated by	<-	1
+NFATC2	PRKCQ	activate; inhibited by; reaction	|->	1
+NFATC2	PRKCZ	activated by	<-	1
+NFATC2	PTGS2	GErel: expression	->	1
+NFATC2	RAN	activated by	<-	1
+NFATC2	RARA	predicted	-	0.54
+NFATC2	RCAN1	GErel: expression	->	1
+NFATC2	RGS2	GErel: expression	->	1
+NFATC2	RIPK2	predicted	-	0.64
+NFATC2	RNF128	activate; inhibited by	|->	1
+NFATC2	RUNX1	complex; input; reaction	-	1
+NFATC2	SRF	PPrel: binding/association	-	1
+NFATC2	STAT4	reaction	-	1
+NFATC2	TBX21	GErel: expression; reaction	->	1
+NFATC2	TFAP4	predicted	-	0.64
+NFATC2	TNF	GErel: expression; PPrel: indirect effect	->	1
+NFATC2	TRPC6	GErel: expression	->	1
+NFATC2	USP22	predicted	-	0.64
+NFATC2	VAV1	PPrel: activated, indirect effect	<-	1
+NFATC2	VAV2	PPrel: activated, indirect effect	<-	1
+NFATC2	VAV3	PPrel: activated, indirect effect	<-	1
+NFATC2	XPO1	activated by	<-	1
+NFATC2	YWHAQ	complex; input	-	1
+PROCR	PRTN3	complex; input	-	1
+PRTN3	SERPINA1	predicted	-	0.77
+PRTN3	SERPINB1	predicted	-	0.99
+PRTN3	SPI1	expression regulated by	<-	1

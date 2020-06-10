@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(igraph)
+library(readr)
+library(dplyr)
+```
+```{r}
+biogrid_data <- read_tsv("../Networks/BIOGRID-ORGANISM-Homo_sapiens-3.5.185.tab3.txt") %>%
+  select("Official Symbol Interactor A", "Official Symbol Interactor B", "Organism Name Interactor A", "Organism Name Interactor B") %>%
+  filter(`Organism Name Interactor A` == "Homo sapiens" & `Organism Name Interactor B` == "Homo sapiens")
+reactome_FI <- read_tsv("../Networks/FIsInGene_020720_with_annotations.tsv")
+```
+```{r}
+pvalue <- 0.1
+logFC <- 1.5
+WT_vs_MUT_UP <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.None.vsMut.None/Genes_values/UP_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+WT_vs_MUT_DOWN <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.None.vsMut.None/Genes_values/DOWN_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+
+pvalue <- 0.1
+logFC <- 1.5
+WT_vs_WTHG_UP <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.None.vsWT.HG/Genes_values/UP_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+WT_vs_WTHG_DOWN <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.None.vsWT.HG/Genes_values/DOWN_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+
+pvalue <- 0.1
+logFC <- 1.5
+WT_vs_WTOctyl_UP <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.NonevsWT.Octyl/Genes_values/UP_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+WT_vs_WTOctyl_DOWN <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.NonevsWT.Octyl/Genes_values/DOWN_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+
+pvalue <- 0.1
+logFC <- 1.5
+WTHG_vs_MUT_UP <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.HGvsMut.None/Genes_values/UP_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+WTHG_vs_MUT_DOWN <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.HGvsMut.None/Genes_values/DOWN_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+
+pvalue <- 0.1
+logFC <- 0.75
+WTHG_vs_WTOctyl_UP <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.HGvsWT.octyl/Genes_values/UP_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+WTHG_vs_WTOctyl_DOWN <- as.vector(t(read.csv(file = paste0("../../Transcriptomes/Results_Transcriptomes/WT.HGvsWT.octyl/Genes_values/DOWN_pval_", pvalue, "_logFC_", logFC, ".csv"), header = F, sep = "\t")))
+  
+```
+
+```{r}
+biogrid_network <- graph_from_data_frame(biogrid_data, directed = F)
+reactomeFI_network <- graph_from_data_frame(reactome_FI, directed = F)
+```
+
+```{r}
+explore_genes_network <- function(genes_vector) {
+  dir.create(paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector))), showWarnings = FALSE)
+  dir.create(paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector)), "/biogrid"), showWarnings = FALSE)
+  selected_nodes <- V(biogrid_network)[V(biogrid_network)$name %in% genes_vector]
+  selected_edges <- E(biogrid_network)[from(selected_nodes) | to(selected_nodes)]
+  subnet <- subgraph.edges(biogrid_network, selected_edges)
+  nodes <- as_tibble(get.data.frame(subnet, what = "vertices")) %>% rename(gene = name)
+  edges <- as_tibble(get.data.frame(subnet, what = "edges"))
+  write_tsv(nodes, paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector)), "/biogrid/", deparse(substitute(genes_vector)), "_nodes.tsv"))
+  write_tsv(edges, paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector)),  "/biogrid/", deparse(substitute(genes_vector)), "_edges.tsv"))
+  
+  dir.create(paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector)), "/reactome_FI"), showWarnings = FALSE)
+  selected_nodes <- V(reactomeFI_network)[V(reactomeFI_network)$name %in% genes_vector]
+# First neighborhood is all nodes connected to our selected nodes
+  selected_edges <- E(reactomeFI_network)[from(selected_nodes) | to(selected_nodes)]
+  subnet <- subgraph.edges(reactomeFI_network, selected_edges)
+  nodes <- as_tibble(get.data.frame(subnet, what = "vertices")) %>% rename(gene = name)
+  edges <- as_tibble(get.data.frame(subnet, what = "edges"))
+  write_tsv(nodes, paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector)),  "/reactome_FI/", deparse(substitute(genes_vector)), "_reactomeFI_nodes.tsv"))
+  write_tsv(edges, paste0("../Networks_of_new_genes/", deparse(substitute(genes_vector)), "/reactome_FI/", deparse(substitute(genes_vector)), "_reactome_FI_edges.tsv"))
+}
+```
+
+```{r}
+explore_genes_network(WT_vs_MUT_UP)
+explore_genes_network(WT_vs_MUT_DOWN)
+explore_genes_network(WT_vs_WTHG_UP)
+explore_genes_network(WT_vs_WTHG_DOWN)
+explore_genes_network(WT_vs_WTOctyl_UP)
+explore_genes_network(WT_vs_WTOctyl_DOWN)
+explore_genes_network(WTHG_vs_MUT_UP)
+explore_genes_network(WTHG_vs_MUT_DOWN)
+explore_genes_network(WTHG_vs_WTOctyl_UP)
+explore_genes_network(WTHG_vs_WTOctyl_DOWN)
+
+```

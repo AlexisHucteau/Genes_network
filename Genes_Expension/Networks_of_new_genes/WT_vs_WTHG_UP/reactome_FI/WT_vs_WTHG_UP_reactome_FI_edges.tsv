@@ -1,0 +1,16 @@
+from	to	Annotation	Direction	Score
+ARRB1	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+ARRB2	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+GNAL	OR5M1	PPrel: activated by; complex; input	<-	1
+GNB1	OR5M1	PPrel: activated by; complex; input	<-	1
+GNG13	OR5M1	PPrel: activated by	<-	1
+GNG7	OR5M1	PPrel: activated by	<-	1
+GNGT1	OR5M1	complex; input	-	1
+GRK2	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+GRK3	OR5M1	PPrel: inhibition, phosphorylation	-|	1
+OR5M1	PRKACA	PPrel: inhibited by, phosphorylated by	|-	1
+OR5M1	PRKACB	PPrel: inhibited by, phosphorylated by	|-	1
+OR5M1	PRKACG	PPrel: inhibited by, phosphorylated by	|-	1
+OR5M1	REEP1	activated by	<-	1
+OR5M1	RTP1	activated by	<-	1
+OR5M1	RTP2	activated by	<-	1

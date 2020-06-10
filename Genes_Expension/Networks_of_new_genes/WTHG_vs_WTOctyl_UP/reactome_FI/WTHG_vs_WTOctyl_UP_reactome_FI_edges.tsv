@@ -1,0 +1,4 @@
+from	to	Annotation	Direction	Score
+STAT1	ZNF223	GErel: expression	->	1
+STAT2	ZNF223	GErel: expression	->	1
+ZNF223	ZNF284	predicted	-	0.98

@@ -1,0 +1,23 @@
+File created with bingo (c) on 10 juin 2020 at 15:47:08
+
+ontology: namespace
+curator:  bingo
+
+Selected ontology file : bundle://123.0:1/data/GO_Biological_Process
+Selected annotation file : bundle://123.0:1/data/H_sapiens_default
+Discarded evidence codes : 
+Overrepresentation
+Selected statistical test : Hypergeometric test
+Selected correction : Benjamini & Hochberg False Discovery Rate (FDR) correction
+Selected significance level : 0.0005
+Testing option : Use whole annotation as reference set
+The selected cluster :
+RNF11	ZNF350	TRIM28	USP21	CLECL1	RBBP8	EP300	NEK1	CSK	VHL	BRCA1	
+
+No annotations were retrieved for the following entities:
+CLECL1	
+
+GO-ID	p-value	corr p-value	x	n	X	N	Description	Genes in test set
+43687	1.4103E-7	6.1206E-5	8	1266	10	14305	post-translational protein modification	RNF11|TRIM28|USP21|EP300|NEK1|CSK|VHL|BRCA1
+6464	6.0582E-7	1.3124E-4	8	1525	10	14305	protein modification process	RNF11|TRIM28|USP21|EP300|NEK1|CSK|VHL|BRCA1
+43412	9.0722E-7	1.3124E-4	8	1606	10	14305	macromolecule modification	RNF11|TRIM28|USP21|EP300|NEK1|CSK|VHL|BRCA1

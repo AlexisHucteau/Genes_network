@@ -1,0 +1,72 @@
+from	to	Annotation	Direction	Score
+AGRN	HPSE	catalyzed by	<-	1
+AMOT	SEPTIN1	predicted	-	0.64
+ATF7IP	ZNF350	predicted	-	0.64
+AURKB	SEPTIN1	complex; input	-	1
+BRCA1	ZNF350	predicted	-	0.64
+EP300	ZNF350	predicted	-	0.64
+ETS1	HPSE	expression regulates	->	1
+ETS2	HPSE	expression regulates	->	1
+ETV4	HPSE	expression regulates	->	1
+F3	HPSE	predicted	-	0.64
+FGF23	GALNT3	catalyzed by	<-	1
+GALNT3	MUC1	catalyze	->	1
+GALNT3	MUC12	catalyze	->	1
+GALNT3	MUC13	catalyze	->	1
+GALNT3	MUC15	catalyze	->	1
+GALNT3	MUC16	catalyze	->	1
+GALNT3	MUC17	catalyze	->	1
+GALNT3	MUC19	catalyze	->	1
+GALNT3	MUC2	catalyze	->	1
+GALNT3	MUC20	catalyze	->	1
+GALNT3	MUC21	catalyze	->	1
+GALNT3	MUC3A	catalyze	->	1
+GALNT3	MUC3B	catalyze	->	1
+GALNT3	MUC4	catalyze	->	1
+GALNT3	MUC5AC	catalyze	->	1
+GALNT3	MUC5B	catalyze	->	1
+GALNT3	MUC6	catalyze	->	1
+GALNT3	MUC7	catalyze	->	1
+GALNT3	MUCL1	catalyze	->	1
+GALNT3	TFAP2A	expression regulated by	<-	1
+GPC1	HPSE	catalyzed by	<-	1
+GPC2	HPSE	catalyzed by	<-	1
+GPC3	HPSE	catalyzed by	<-	1
+GPC4	HPSE	catalyzed by	<-	1
+GPC5	HPSE	catalyzed by	<-	1
+GPC6	HPSE	catalyzed by	<-	1
+HPSE	HSPG2	catalyze	->	1
+HPSE	SDC1	PPrel: state change; activate; catalyze	->	1
+HPSE	SDC2	catalyze	->	1
+HPSE	SDC3	catalyze	->	1
+HPSE	SDC4	catalyze	->	1
+PRKN	SEPTIN1	complex; input	-	1
+PSMA1	SEPTIN1	catalyze	->	1
+PSMA2	SEPTIN1	catalyze	->	1
+PSMA3	SEPTIN1	catalyze	->	1
+PSMA4	SEPTIN1	catalyze	->	1
+PSMA5	SEPTIN1	catalyze	->	1
+PSMA6	SEPTIN1	catalyze	->	1
+PSMA7	SEPTIN1	catalyze	->	1
+PSMA8	SEPTIN1	catalyze	->	1
+PSMB1	SEPTIN1	catalyze	->	1
+PSMB10	SEPTIN1	catalyze	->	1
+PSMB3	SEPTIN1	catalyze	->	1
+PSMB7	SEPTIN1	catalyze	->	1
+SEPTIN1	SEPTIN11	predicted	-	0.98
+SEPTIN1	SEPTIN12	predicted	-	0.98
+SEPTIN1	SEPTIN14	predicted	-	0.98
+SEPTIN1	SEPTIN3	predicted	-	0.98
+SEPTIN1	SEPTIN5	predicted	-	0.98
+SEPTIN1	SEPTIN6	predicted	-	0.98
+SEPTIN1	STX12	complex; input	-	1
+SEPTIN1	STX7	complex; input	-	1
+SEPTIN1	UBE2L6	catalyzed by	<-	1
+STAT1	ZNF350	GErel: expression	->	1
+STAT2	ZNF350	GErel: expression	->	1
+SUMO1	ZNF350	complex; input	-	1
+TRIM28	ZNF350	catalyze; complex; input	->	1
+UBE2I	ZNF350	input	-	1
+VHL	ZNF350	predicted	-	0.64
+YY1	ZNF350	expression regulates	->	1
+ZNF350	ZNF613	predicted	-	0.92

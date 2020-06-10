@@ -1,0 +1,14 @@
+from	to	Annotation	Direction	Score
+ATF7IP	ZNF350	predicted	-	0.64
+BRCA1	ZNF350	predicted	-	0.64
+EP300	ZNF350	predicted	-	0.64
+STAT1	ZNF350	GErel: expression	->	1
+STAT1	ZNF429	GErel: expression	->	1
+STAT2	ZNF350	GErel: expression	->	1
+STAT2	ZNF429	GErel: expression	->	1
+SUMO1	ZNF350	complex; input	-	1
+TRIM28	ZNF350	catalyze; complex; input	->	1
+UBE2I	ZNF350	input	-	1
+VHL	ZNF350	predicted	-	0.64
+YY1	ZNF350	expression regulates	->	1
+ZNF350	ZNF613	predicted	-	0.92
