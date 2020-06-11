@@ -100,7 +100,7 @@ With logFC threshold = 0.75 and P-value = 0.1
 
 ### Analyze of the methylomes
 
-The aim of this analyze is to list CpGs that are differently methylated between the two condition IDH1 WT and IDH1 mutated. Through the Beta Value we can estimate that for each CpGs, if
+The aim of this analyze is to list CpGs that are differently methylated between the two condition IDH1 WT and IDH1 mutated.
 
 ##### *Data 4*
 
