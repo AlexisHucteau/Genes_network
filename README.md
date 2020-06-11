@@ -100,7 +100,9 @@ With logFC threshold = 0.75 and P-value = 0.1
 
 ### Analyze of the methylomes
 
-##### *Data 2*
+The aim of this analyze is to list CpGs that are differently methylated between the two condition IDH1 WT and IDH1 mutated. Through the Beta Value we can estimate that for each CpGs, if
+
+##### *Data 4*
 
 **DATA :** Methylomes/DATA_Methylomes/DATA
 
@@ -109,3 +111,44 @@ With logFC threshold = 0.75 and P-value = 0.1
 **Scripts :** Methylomes/Scripts_Methylomes
 
 **Results :** Methylomes/Results_Methylomes
+
+
+## **STEP 3**
+
+### Connect CpGs to 3D contact
+
+##### *Data 5*
+
+Network of chromatine physical contact.
+
+**DATA :** Chromatine_network/DATA/pchic.RData
+
+##### *Data 6*
+
+Chromosoms coordinates for CpGs that are differentially methylated between WT and Mutant
+
+**DATA :** Chromatine_network/DATA/CpGs_mapinfo.csv
+
+**Script :** Chromatine_network/Script/Find_Overlap.Rmd
+
+**Results :** Chromatine_network/Results/CpGs_chromatine_Network.csv
+
+## **STEP 4**
+
+### Connect CpGs_Chromatine Network with Transcriptional analyses
+
+##### *Data 7*
+
+List of genes that are specifically up or down regulated
+
+**DATA :** Genes_Expension/Networks_of_new_genes
+
+##### *Data 8*
+
+Network of specific CpGs differentially up or down methylated and their physical interaction with chromatine
+
+**DATA :** Chromatine_network/Results/CpGs_chromatine_Network.csv
+
+**Scripts :** Final_Network/Scripts/Connect_network.Rmd
+
+**Results :** Final_Network/Results/????
