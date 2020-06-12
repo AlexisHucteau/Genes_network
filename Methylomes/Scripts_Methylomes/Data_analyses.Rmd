@@ -1,0 +1,235 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+###IMPORTATION OF DATA
+
+```{r}
+setwd("~/Genes_network/Methylomes/")
+getwd()
+
+load("~/Genes_network/Methylomes/DATA_Methylomes/Methylomes_data.RData")
+system("say finished")
+```
+
+```{r}
+plot.beta.densities <- function(beta, title) {
+  if (!is.null(dim(beta))) {
+    densities <- apply(beta, 2, function(x) {
+      density(x, na.rm = TRUE)
+    })
+    xmax <- max(sapply(densities, function(d) {
+      max(d$x)
+    }))
+    xmin <- min(sapply(densities, function(d) {
+      min(d$x)
+    }))
+    ymax <- max(sapply(densities, function(d) {
+      max(d$y)
+    }))
+
+    plot(NA, xlim = c(xmin, xmax), ylim = c(0, ymax), main = title, ylab = "")
+    colors <- rainbow(10)
+    for (i in 1:ncol(beta)) {
+      lines(densities[[i]], col = colors[i %% 10 + 1])
+    }
+  } else if (length(beta) > 1) {
+    plot(density(beta, na.rm = TRUE), main = title)
+  }
+}
+```
+
+
+```{r}
+library(ChAMP)
+library(stringr)
+
+champ.QC(beta = RawnoNABeta, pheno = Samplesheet$genotype, resultsDir = "./Rawbeta_QC")
+BMIQ <- champ.norm(RawnoNABeta, resultsDir = "./BMIQ_Normalization/", arraytype = "450K", cores = 8, method = "BMIQ")
+barplot(colMeans(BMIQ, na.rm = TRUE), las = 2, names.arg = ifelse(str_detect(colnames(BMIQ), "MUT"), "MUT", "WT"))
+barplot(colQuantiles(BMIQ)[, 4], las = 2, names.arg = ifelse(str_detect(colnames(BMIQ), "MUT"), "MUT", "WT"), ylim = c(0.9, 1), xpd = FALSE)
+barplot(colQuantiles(BMIQ)[, 2], las = 2, names.arg = ifelse(str_detect(colnames(BMIQ), "MUT"), "MUT", "WT"), ylim = c(0, 0.08), xpd = FALSE)
+
+
+plot.beta.densities(RawnoNABeta, "Densities of raw values per sample")
+plot.beta.densities(BMIQ, "Densities of BMIQ normalization per sample")
+```
+
+```{r}
+TS <- ifelse(str_detect(Samplesheet$Sample_name, "MUT"), "Mut", "WT")
+TS <- factor(TS, levels = c("Mut", "WT"))
+design <- model.matrix(~ 0 + TS)
+colnames(design) <- levels(TS)
+fit <- lmFit(BMIQ, design)
+
+cont.matrix <- makeContrasts(
+  WTvsMut = Mut - WT,
+  levels = design
+)
+fit.contrast <- contrasts.fit(fit, cont.matrix)
+efit.contrast <- eBayes(fit.contrast)
+```
+
+```{r}
+anno_450 <- read.csv("/home/alexis/Documents/Data_TCGA/Methylomes/HumanMethylation450_15017482_v1-2.csv", as.is = TRUE, skip = 7)
+anno_450 <- anno_450[, c("CHR", "MAPINFO", "Name", "UCSC_RefGene_Name", "Relation_to_UCSC_CpG_Island", "UCSC_RefGene_Group")]
+```
+
+```{r}
+library(EnhancedVolcano)
+
+enhancedvolcano_data1 <- data.frame(logFC = efit.contrast[["coefficients"]][,1], pvalue = efit.contrast[["p.value"]][,1])
+
+enhancedvolcano_data1$cpgs <- rownames(enhancedvolcano_data1)
+enhancedvolcano_data1 <- merge(x = enhancedvolcano_data1, y = anno_450, by.x = "cpgs", by.y = "Name")
+png(file = paste0("~/Genes_network/Methylomes/Results_Methylomes/", colnames(cont.matrix)[1], "_Methylation_beta_values_BMIQ_volcano_plot.png"))
+par(mfrow = c(1, 1))
+EnhancedVolcano(toptable = enhancedvolcano_data1, 
+                lab = enhancedvolcano_data1$UCSC_RefGene_Name, 
+                x = "logFC", 
+                y = "pvalue",
+                FCcutoff = 0.1,
+                pCutoff = 0.0001,
+                title = colnames(efit.contrast[[1]])[1],
+                subtitle = NA,
+                legendPosition = "right",
+                subtitleLabSize = 0,
+                legendLabSize = 10,
+                ylim = c(0,10)
+)
+dev.off()
+
+select <- sapply(enhancedvolcano_data1$UCSC_RefGene_Group, function(ref) {
+  ifelse(str_detect(ref, "TSS"), TRUE, FALSE)
+})
+enhancedvolcano_data1 <- enhancedvolcano_data1[select, ]
+
+png(file = paste0("~/Genes_network/Methylomes/Results_Methylomes/", colnames(cont.matrix)[1], "_Methylation_Promoter_ beta_values_BMIQ_volcano_plot.png"))
+par(mfrow = c(1, 1))
+EnhancedVolcano(toptable = enhancedvolcano_data1, 
+                lab = enhancedvolcano_data1$UCSC_RefGene_Name, 
+                x = "logFC", 
+                y = "pvalue",
+                FCcutoff = 0.1,
+                pCutoff = 0.0001,
+                title = colnames(efit.contrast[[1]])[1],
+                subtitle = NA,
+                legendPosition = "right",
+                subtitleLabSize = 0,
+                legendLabSize = 10,
+                ylim = c(0,10)
+)
+dev.off()
+
+
+```
+
+
+```{r}
+png(file = paste0("~/Genes_network/Methylomes/Results_Methylomes/", colnames(cont.matrix)[1], "_Methylation_beta_values_BMIQ_volcano_plot.png"))
+par(mfrow = c(1, 1))
+volcanoplot(efit.contrast,
+  coef = 1, style = "p-value", highlight = 150,
+  xlab = "Log2 Fold Change", ylab = NULL, pch = 16, cex = 0.35,
+  names = NA,
+  main = colnames(cont.matrix)[1]
+)
+dev.off()
+volcanoplot(efit.contrast,
+  coef = 1, style = "p-value", highlight = 150,
+  xlab = "Log2 Fold Change", ylab = NULL, pch = 16, cex = 0.35,
+  names = NA,
+  main = colnames(cont.matrix)[1]
+)
+```
+
+
+```{r}
+library(sva)
+library(Hmisc)
+library(pheatmap)
+
+cor_BMIQ <- rcorr(BMIQ, type = "pearson")$r
+pheatmap(cor_BMIQ, main = "Heatmap BMIQ")
+```
+
+```{r}
+threshold_function <- function(up_value) {
+    return(-(up_value**2)+up_value-0.25)
+}
+```
+
+```{r}
+Mut <- as.data.frame(RawnoNABeta[, seq(1:13)])
+WT <- as.data.frame(RawnoNABeta[, seq(14, 90)])
+Mut$Mean <- rowMeans(Mut)
+WT$Mean <- rowMeans(WT)
+cpgs_Rawdata <- rownames(RawnoNABeta)
+Mean_Beta_Values <- data.frame("WT" = WT$Mean, "Mut" = Mut$Mean, "cpgs" = cpgs_Rawdata)
+
+Mean_Beta_Values <- merge(x = Mean_Beta_Values, y = anno_450, by.x = "cpgs", by.y = "Name")
+
+select <- sapply(Mean_Beta_Values$UCSC_RefGene_Group, function(ref) {
+  ifelse(str_detect(ref, "TSS"), TRUE, FALSE)
+})
+Promoter_Beta_values <- Mean_Beta_Values#[select, ]
+
+methylation_treshold <- 0.65
+true_methylation_treshold <- threshold_function(methylation_treshold)
+
+barplot(colMeans(Promoter_Beta_values[, c(2, 3)]))
+nb_upmethylation <- sapply((Promoter_Beta_values[, 3] - 0.5) * (Promoter_Beta_values[, 2] - 0.5), function(test_modification) {
+  ifelse(test_modification < true_methylation_treshold, TRUE, FALSE)
+})
+Promoter_Beta_values$up_down_methylation <- nb_upmethylation
+
+Promoter_Beta_values_change <- Promoter_Beta_values[which(Promoter_Beta_values$up_down_methylation), ]
+
+hist(Promoter_Beta_values_change[, c(2, 3)])
+
+Promoter_Beta_values_change <- Promoter_Beta_values_change[, c("cpgs", "WT", "Mut", "CHR", "MAPINFO", "UCSC_RefGene_Name", "Relation_to_UCSC_CpG_Island", "UCSC_RefGene_Group")]
+
+write.csv(Promoter_Beta_values_change, file = "~/Genes_network/Chromatine_network/DATA/CpGs_mapinfo.csv", row.names = FALSE)
+
+```
+
+
+```{r}
+DMR_DMP_analyses <- function(beta_df, phenotype, DMP_f, arraytype_f = "EPIC", method_f = "Bumphunter", cores_f = 8, adjPval_f = 0.05, method_f2 = "gometh", method_f3 = "fisher", DMR = NA, block = NA, eGSEA = NA, fGSEA = NA, gGSEA = NA) {
+  list_result <- list()
+  print("champ.DMR in progress...")
+  if (is.na(DMR)) {
+    list_result[["DMR"]] <- champ.DMR(beta = beta_df, pheno = phenotype, arraytype = arraytype_f, method = method_f, cores = cores_f)
+  } else {
+    list_result[["DMR"]] <- DMR
+  }
+  print("champ.DMR finished! champ.Block in progress...")
+  if (is.na(block)) {
+    list_result[["block"]] <- champ.Block(beta = beta_df, pheno = phenotype, arraytype = arraytype_f, cores = cores_f)
+  } else {
+    list_result[["block"]] <- block
+  }
+  print("champ.Block finished! champ.ebGSEA in progress...")
+  if (is.na(eGSEA)) {
+    list_result[["eGSEA"]] <- champ.ebGSEA(beta = beta_df, pheno = phenotype, arraytype = arraytype_f, adjPval = adjPval_f)
+  } else {
+    list_result[["eGSEA"]] <- eGSEA
+  }
+  print("champ.ebGSEA finished! champ.GSEA in progress...")
+  if (is.na(fGSEA)) {
+    list_result[["fGSEA"]] <- champ.GSEA(beta = beta_df, DMR = list_result[["DMR"]], DMP = DMP_f, pheno = phenotype, method = method_f3, arraytype = arraytype_f, adjPval = adjPval_f)
+  } else {
+    list_result[["fGSEA"]] <- fGSEA
+  }
+  print("champ.fGSEA finished! champ.gGSEA in progress...")
+  if (is.na(gGSEA)) {
+    list_result[["gGSEA"]] <- champ.GSEA(beta = beta_df, DMP = DMP_f, DMR = list_result[["DMR"]], pheno = phenotype, method = method_f2, arraytype = arraytype_f, adjPval = adjPval_f)
+  } else {
+    list_result[["gGSEA"]] <- gGSEA
+  }
+  print("finished!")
+  system("say finished!")
+  return(list_result)
+}
+```
