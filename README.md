@@ -1,4 +1,7 @@
 # JOBIM_Network
+
+[Poster Presentation](https://docs.google.com/presentation/d/1Dzt-CYCwIxwu5b1yr3vUIuQY31mGB5AbgJvGSVaJy5A/edit?usp=sharing)
+
 Connect Methylomes and Transcriptomes
 
 In IDH1m cells, the DNA is up methylated. By looking at CpGs we can look at the specific localization of thoses methylations. The impact of methylations on genes is knwown to have a down regulation of their transcription. By connecting transcriptomics and methylomics data, we can see the direct impact of methylation due to the mutation.
