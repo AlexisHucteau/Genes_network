@@ -6,12 +6,11 @@ library("tidyverse")
 
 setwd("Genes_network/Chromatine_network/")
 getwd()
-#PCHiC experiment
-load("./DATA/pchic.RData") 
+# PCHiC experiment
+load("./DATA/pchic.RData")
 pchic <- pchic[, c(1:10)]
-#Coordinates of CpGs differently methylated
+# Coordinates of CpGs differently methylated
 Cpgs_Coordinates <- read.csv("./DATA/CpGs_mapinfo.csv")
-# Cpgs_Coordinates <- head(Cpgs_Coordinates, 200)
 List_Promoter <- paste(pchic$baitChr, pchic$baitStart, sep = "_")
 
 # Put all bait and all OE regions into a BED file format and then GRanges object
@@ -28,7 +27,7 @@ PCHiC_GRange
 
 CpGs_Ranges <- GRanges(
   seqnames = Cpgs_Coordinates$CHR,
-  ranges = IRanges(start = Cpgs_Coordinates$Coordinate_36, end = Cpgs_Coordinates$Coordinate_36 + 1),
+  ranges = IRanges(start = Cpgs_Coordinates$MAPINFO, end = Cpgs_Coordinates$MAPINFO + 1),
   methylation = ifelse(Cpgs_Coordinates$Mut - Cpgs_Coordinates$WT > 0, "UP", "DOWN"),
   genes = Cpgs_Coordinates$UCSC_RefGene_Name
 )
@@ -56,19 +55,29 @@ CpGs_Promoter_NonPromoter <- CpGs_all_network[-which(CpGs_all_network$IDoe %in% 
 CpGs_Promoter_NonPromoter$OePromoter <- FALSE
 CpGs_all_network <- rbind(CpGs_Promoter_Promoter, CpGs_Promoter_NonPromoter)
 CpGs_all_network$CpGs_bait <- ifelse(CpGs_all_network$IDbait %in% match_hit$ID, TRUE, FALSE)
-CpGs_all_network$CpGs_oe <- ifelse(CpGs_all_network$IDoe %in% match_hit$ID,TRUE, FALSE)
+CpGs_all_network$CpGs_oe <- ifelse(CpGs_all_network$IDoe %in% match_hit$ID, TRUE, FALSE)
 CpGs_all_network$PromoterBait <- TRUE
-CpGs_all_network <- CpGs_all_network[,c(1,2,6,8,3,4,7,5)]
+CpGs_all_network <- CpGs_all_network[, c(1, 2, 6, 8, 3, 4, 7, 5)]
 Node_features <- data.frame("ID" = paste0("\"", CpGs_all_network$IDbait, "\""), "Genes" = CpGs_all_network$Name_bait, "Promoter" = CpGs_all_network$PromoterBait, "CpGs" = CpGs_all_network$CpGs_bait)
 Node_features <- rbind(Node_features, data.frame("ID" = paste0("\"", CpGs_all_network$IDoe, "\""), "Genes" = CpGs_all_network$Name_oe, "Promoter" = CpGs_all_network$OePromoter, "CpGs" = CpGs_all_network$CpGs_oe))
 Node_features <- unique(Node_features)
 
-#For any reason, the bait ID : 19_37726761 and 7_1261811 are duplicated.
+# For any reason, the bait ID : 19_37726761 and 7_1261811 are duplicated.
 
-CpGs_all_network <- CpGs_all_network[-which(str_detect(CpGs_all_network$IDbait, "19_37726761")),]
-CpGs_all_network <- CpGs_all_network[-which(str_detect(CpGs_all_network$IDbait, "7_1261811")),]
-Node_features <- Node_features[-which(str_detect(Node_features$ID, "\"19_37726761\"")),]
-Node_features <- Node_features[-which(str_detect(Node_features$ID, "\"7_1261811\"")),]
+Node_features$Cytoscape_feature <- "string"
+
+for (i in seq(length(Node_features$CpGs))) {
+  if (Node_features[i, 3] & Node_features[i, 4]) {
+    Cytoscape_feature <- "Promoter_methylated"
+  } else if (Node_features[i, 3] & !Node_features[i, 4]) {
+    Cytoscape_feature <- "Promoter"
+  } else if (!Node_features[i, 3] & Node_features[i, 4]) {
+    Cytoscape_feature <- "Methylated"
+  } else {
+    Cytoscape_feature <- "Simple_fragment"
+  }
+  Node_features[i, 5] <- Cytoscape_feature
+}
 
 write.csv(Node_features, file = "Results/Node_features.csv", row.names = FALSE)
-write.csv(CpGs_all_network[,c(1,5)], file = "Results/CpGs_chromatine_Network2.csv", row.names = FALSE)
+write.csv(CpGs_all_network[, c(1, 5)], file = "Results/CpGs_chromatine_Network.csv", row.names = FALSE)
