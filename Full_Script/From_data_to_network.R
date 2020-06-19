@@ -102,6 +102,7 @@ Analyze_methylation <- function(DATA, Samplesheet, annotations) {
 #Return DATA filtered
 Filter_Differential_Methylation <- function(DATA, pvalue, logFC_treshold) {
   High_contrast <- DATA[DATA$pvalue < pvalue & DATA$logFC**2 > logFC_treshold**2, c(1, 9, 10, 2, 3, 4, 5, 6, 7, 8)]
+  print(paste0("The number of CpGs differentially methylated is ", length(High_contrast[,1])))
   return(High_contrast)
 }
 
@@ -156,6 +157,8 @@ Analyse_transcription <- function(number_of_the_comparison,
   genes_down <- c(transit[[1]]) # ,transit[[4]])
   genes_down <- genes_down[which(genes_down != "NA")]
   Genes_values[["DOWN"]] <- array(genes_down)
+  print(paste0("The number of genes up regulated is ", length(Genes_values[["UP"]]))  )
+  print(paste0("The number of genes down regulated is ", length(Genes_values[["DOWN"]])))
   return(Genes_values)
 }
 
@@ -205,9 +208,7 @@ Create_network <- function(DATA, network, list_of_promoter) {
   Node_features <- data.frame("ID" = paste0("\"", CpGs_all_network$IDbait, "\""), "Genes" = CpGs_all_network$Name_bait, "Promoter" = CpGs_all_network$PromoterBait, "CpGs" = CpGs_all_network$CpGs_bait)
   Node_features <- rbind(Node_features, data.frame("ID" = paste0("\"", CpGs_all_network$IDoe, "\""), "Genes" = CpGs_all_network$Name_oe, "Promoter" = CpGs_all_network$OePromoter, "CpGs" = CpGs_all_network$CpGs_oe))
   Node_features <- unique(Node_features)
-  
   Node_features$Cytoscape_feature <- "string"
-  
   for (i in seq(length(Node_features$CpGs))) {
     if (Node_features[i, 3] & Node_features[i, 4]) {
       Cytoscape_feature <- "Promoter_methylated"
@@ -223,8 +224,9 @@ Create_network <- function(DATA, network, list_of_promoter) {
   res <- list()
   res[["network"]] <- CpGs_all_network
   res[["features"]] <- Node_features
+  print(paste0("The number of nodes is ", length(Node_features[,1])))
+  print(paste0("The number of edges is ", length(CpGs_all_network[,1]$IDbait)))
   return(res)
-  
 }
 
 #ADD transcription feature
@@ -269,6 +271,7 @@ Transcription_features <- function(gene_list, network_features) {
   })
   
   network_features$final_feature <- final_feature
+  print(paste0("The number of genes from the DE network connected to the final network is ", length(final_feature[!str_detect(final_feature, "Not")])))
   return(network_features)
 }
 
@@ -316,8 +319,10 @@ From_data_to_network <- function(DATA_MET,
   print("Creation of the network in progress... May be long to compute!")
   Network <- Create_network(Overlap_bed_file, chromatine_network, List_of_promoter)
   print("Create_network: DONE")
-  Network[["features"]] <- Transcription_features(Genes_network, Network[["features"]])
-  Network[["network"]] <- Filter_network(Network[["network"]])
+  Network[["features"]] <- unique(Transcription_features(Genes_network, Network[["features"]]))
+  print(paste0("The number of genes in the network is ", length(Network[["features"]][Network[["features"]]$Promoter,1])))
+  print(paste0("The number of genes with CpGs DM in the network is ", length(Network[["features"]][Network[["features"]]$Promoter & Network[["features"]]$CpGs,1])))
+  #Network[["network"]] <- Filter_network(Network[["network"]])
   print("DONE!")
   return(Network)
 }
@@ -336,9 +341,9 @@ threshold <- 1.5
 pvalue <- 0.1
 
 #### Choose the pvalue threshold for the methylation analysis
-pvalue_met <- 0.0001
+pvalue_met <- 0.001
 
-logFC_treshold_met <- 0.3
+logFC_treshold_met <- 0.4
 
 Network <- From_data_to_network(DATA_MET = RawnoNABeta, 
                                 Samplesheet_MET = Samplesheet, 
@@ -355,11 +360,6 @@ Network <- From_data_to_network(DATA_MET = RawnoNABeta,
                                 chromatine_network = pchic, 
                                 List_of_promoter = List_Promoter, 
                                 gene_gene_network = reactomeFI_network)
-
-Analysed_methyl <- Analyze_methylation(RawnoNABeta, Samplesheet, anno_450)
-Filtered_methyl <- Filter_Differential_Methylation(Analysed_methyl, pvalue_met, logFC_treshold_met)
-
-filtered_network <- Filter_network(Network[["network"]][,c(1,5, 2, 3, 4, 6, 7, 8)])
 
 
 write.csv(Network[["network"]][, c(1, 5)], file = paste0("~/Genes_network/Final_network/Results/CpGs_chromatine_Network_", 
