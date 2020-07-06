@@ -1,0 +1,334 @@
+---
+title: "Analyse DATA functions"
+output: html_notebook
+---
+
+```{r}
+library(ChAMP)
+library(stringr)
+library(sva)
+library(limma)
+library(dplyr)
+library(tidyr)
+library(matrixStats)
+library(genefilter)
+library(openxlsx)
+# BiocManager::install("pd.hugene.2.0.st")
+library(hugene20sttranscriptcluster.db)
+library(oligo)
+library(data.table)
+library(igraph)
+library(readr)
+library("GenomicRanges")
+library("tidyverse")
+```
+
+```{r}
+############Functions##################
+#Importation methylations data.
+#pathfile where .idat files are
+#Illumina_type_array "EPIC" or "450k"
+#Samplesheet with a column "Sample_name"
+#Phenotypea vector like ("WT.notreatment", "Mut.Notreatment", ...) 
+
+Import_Methylation_DATA <- function(pathfile, Illumina_type_array = "EPIC", Samplesheet, Phenotype) {
+  RGSet <- read.metharray.exp(pathfile, recursive = T, force = TRUE)
+  type_array <- ifelse(str_detect(Illumina_type_array, "EPIC"), "IlluminaHumanMethylationEPIC", "IlluminaHumanMethylation450K")
+  RGSet <- convertArray(RGSet, outType = type_array)
+  colnames(RGSet) <- c(Samplesheet$Sample_Name)
+
+  MSet <- preprocessRaw(RGSet)
+  qc <- getQC(MSet)
+  plotQC(qc)
+  meds <- (qc$uMed + qc$mMed) / 2
+
+  keepIndex <- which(meds > 10.5)
+  Good_samples <- colnames(RGSet)[which((colnames(RGSet)) %in% keepIndex)]
+
+  RawBeta <- champ.load(arraytype = Illumina_type_array, directory = pathfile)
+
+  champ.QC(beta = RawBeta$beta, pheno = Phenotype, resultsDir = "./Rawbeta_QC")
+  if (Illumina_type_array == "EPIC") {
+    anno <- read.csv("~/Illumina_manifest/MethylationEPIC_v-1-0_B4.csv", as.is = TRUE, skip = 7)
+    anno <- anno[, c("CHR", "MAPINFO", "Name", "UCSC_RefGene_Name", "Relation_to_UCSC_CpG_Island", "UCSC_RefGene_Group")]
+  }else{
+    anno <- read.csv("~/Illumina_manifest/HumanMethylation450_15017482_v1-2.csv", as.is = TRUE, skip = 7)
+    anno <- anno[, c("CHR", "MAPINFO", "Name", "UCSC_RefGene_Name", "Relation_to_UCSC_CpG_Island", "UCSC_RefGene_Group")]
+  }
+  BMIQ <- champ.norm(beta = RawBeta$beta, arraytype = Illumina_type_array, cores = 12, resultsDir = "./BMIQ_Normalization/", method = "BMIQ", rgSet = RGSet)
+  colnames(BMIQ) <- Phenotype
+  res <- list()
+  res[["BMIQ"]] <- BMIQ
+  res[["anno"]] <- anno
+  return(res)
+}
+
+#Importation transcription data
+#Data_dir = pathfile where the data are stocked
+#sample_file = pahtfile where the samplesheet is located
+Import_Transcription_DATA <- function(DATA_dir, Sample_file) {
+  Samplesheet <- read.csv(file = Sample_file)
+  celFiles <- list.celfiles(DATA_dir, full.names = TRUE)
+  data <- read.celfiles(celFiles)
+  eset <- oligo::rma(data) # si non normalisé
+  my_frame <- as.data.frame(exprs(eset))
+  res <- list()
+  res[["DATA"]] <- my_frame
+  res[["Samplesheet"]] <- Samplesheet
+  return(res)
+}
+
+Fit_and_design <- function(comparison, DATA) {
+  design <- model.matrix(~ 0 + comparison)
+  colnames(design) <- levels(comparison)
+  fit <- lmFit(DATA, design)
+  res <- list()
+  res[["fit"]] <- fit
+  res[["design"]] <- design
+  return(res)
+}
+
+#Methylations functions
+#Return DATA analysed
+#Need to create a comparison matrix
+
+Analyze_methylation <- function(DATA, annotations, comparison, comparison_matrix, fit_design, Condition_1, Condition_2) {
+  fit.contrast <- contrasts.fit(fit_design[["fit"]], comparison_matrix)
+  efit.contrast <- eBayes(fit.contrast)
+  Methylation_contrast <- data.frame(logFC = efit.contrast[["coefficients"]][, 1], pvalue = efit.contrast[["p.value"]][, 1])
+  Methylation_contrast$cpg <- rownames(Methylation_contrast)
+  Methylation_contrast <- merge(x = Methylation_contrast, y = annotations, by.x = "cpg", by.y = "Name")
+  Condition_1_column <- str_detect(comparison, Condition_1)
+  Condition_2_column <- str_detect(comparison, Condition_2)
+  Condition_1_filtered <- as.data.frame(DATA[, Condition_1_column])
+  Condition_2_filtered <- as.data.frame(DATA[, Condition_2_column])
+  Condition_1_filtered$Mean <- rowMeans(Condition_1_filtered)
+  Condition_2_filtered$Mean <- rowMeans(Condition_2_filtered)
+  cpgs_Rawdata <- rownames(DATA)
+  Mean_Beta_Values <- data.frame(Condition_1 = Condition_1_filtered$Mean, Condition_2 = Condition_2_filtered$Mean, "cpgs" = cpgs_Rawdata)
+  Methylation_contrast <- merge(x = Methylation_contrast, y = Mean_Beta_Values, by.x = "cpg", by.y = "cpgs")
+  return(Methylation_contrast)
+}
+
+#Return DATA filtered
+Filter_Differential_Methylation <- function(DATA, pvalue, logFC_treshold) {
+  High_contrast <- DATA[DATA$pvalue < pvalue & DATA$logFC**2 > logFC_treshold**2, c(1, 9, 10, 2, 3, 4, 5, 6, 7, 8)]
+  print(paste0("The number of CpGs differentially methylated is ", length(High_contrast[,1])))
+  return(High_contrast)
+}
+
+#Transcription function
+
+#Return a list of genes Differentially expressed
+Analyse_transcription <- function(number_of_the_comparison, 
+                                  DATA, 
+                                  Samplesheet, 
+                                  annotation, 
+                                  logFC_threshold, 
+                                  pvalue) {
+  TS <- paste(Samplesheet$Characteristics.genotype., Samplesheet$Characteristics.treatment., sep = ".")
+  TS <- factor(TS, levels = c("WT.HG", "WT.octyl", "WT.None", "Mut.None"))
+  design <- model.matrix(~ 0 + TS)
+  colnames(design) <- levels(TS)
+  fit <- lmFit(DATA, design)
+  cont.matrix <- makeContrasts(
+    WT.None.vsMut.None = Mut.None - WT.None,
+    WT.None.vsWT.HG = WT.HG - WT.None,
+    WT.HGvsMut.None = Mut.None - WT.HG,
+    WT.NonevsWT.Octyl = WT.octyl - WT.None,
+    WT.HGvsWT.octyl = WT.octyl - WT.HG,
+    levels = design
+  )
+  fit.contrast <- contrasts.fit(fit, cont.matrix)
+  efit.contrast <- eBayes(fit.contrast)
+  Genes_values <- list()
+  genes <- annotation$SYMBOL
+  select <- sapply(genes, function(gene) {
+    !is.null(gene)
+  })
+  genes <- genes[select]
+  all_val <- topTable(efit.contrast, coef = number_of_the_comparison, adjust.method = "BY", n = Inf, genelist = genes)
+  select_na <- sapply(all_val$ID, function(gene) {
+    !(str_detect(gene, "NA"))
+  })
+  all_val <- all_val[select_na, ]
+  signif <- all_val[which(all_val$logFC <= -logFC_threshold | all_val$logFC >= logFC_threshold), ]
+  signif <- signif[which(signif$P.Value <= pvalue), ]
+  UP <- signif[which(signif$logFC > 0), ] # UP
+  UP <- UP[order(UP$logFC, decreasing = T), ]
+  genes_up <- UP$ID
+  transit <- tstrsplit(as.vector(genes_up), "_///_")
+  genes_up <- c(transit[[1]]) # ,transit[[4]])
+  genes_up <- genes_up[which(genes_up != "NA")]
+  Genes_values[["UP"]] <- array(genes_up)
+  DOWN <- signif[which(signif$logFC < 0), ] # DOWN
+  DOWN <- DOWN[order(DOWN$logFC, decreasing = T), ]
+  genes_down <- DOWN$ID
+  transit <- tstrsplit(as.vector(genes_down), "_///_")
+  genes_down <- c(transit[[1]]) # ,transit[[4]])
+  genes_down <- genes_down[which(genes_down != "NA")]
+  Genes_values[["DOWN"]] <- array(genes_down)
+  print(paste0("The number of genes up regulated is ", length(Genes_values[["UP"]]))  )
+  print(paste0("The number of genes down regulated is ", length(Genes_values[["DOWN"]])))
+  return(Genes_values)
+}
+
+#Gene_expansion_function
+
+#Return a vector of genes from a network
+explore_genes_network <- function(genes_vector, network) {
+  selected_nodes <- V(network)[V(network)$name %in% genes_vector]
+  selected_edges <- E(network)[from(selected_nodes) | to(selected_nodes)]
+  subnet <- subgraph.edges(network, selected_edges)
+  nodes <- as_tibble(get.data.frame(subnet, what = "vertices"))
+  nodes <- data.frame("gene" = nodes, "DE" = nodes$name %in% genes_vector)
+  edges <- as_tibble(get.data.frame(subnet, what = "edges"))
+  return(nodes)
+}
+
+add_genes_coordinates <- function(vector_of_genes, annotations) {
+  ensembl = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+  genes_annoted <- merge(x = vector_of_genes, y = annotations, by.x = "name", by.y = "SYMBOL")
+  coordinates <- getBM(attributes = c('chromosome_name', 'start_position', 'end_position', 'entrezgene_id'), filters = 'entrezgene_id', values = genes_annoted$ENTREZID, mart = ensembl)
+  genes_annoted <- merge(x = genes_annoted, y = coordinates, by.x = "ENTREZID", by.y = "entrezgene_id")
+  return(genes_annoted)
+}
+
+find_overlap_between_genes_and_chromatine_network <- function(DATA, bed_file) {
+  DATA <- DATA[!str_detect(DATA$chromosome_name, "CHR"),]
+  Genes_Ranges <- GRanges(
+    seqnames = DATA$chromosome_name,
+    ranges = IRanges(start = DATA$start_position, end = DATA$end_position),
+    genes = DATA$name,
+    DE = DATA$DE
+  )
+  overlaps <- findOverlaps(bed_file, Genes_Ranges)
+  match_hit <- data.frame(mcols(bed_file[queryHits(overlaps)]), as.data.frame(mcols(Genes_Ranges)[subjectHits(overlaps), ]), stringsAsFactors = T)
+  match_hit$Genes_network <- TRUE
+  return(match_hit)
+}
+
+
+#Connect_CpG_to_chromatine_network
+
+#Return 
+find_overlap_between_data_and_chromatine_network <- function(DATA, network) {
+  DATA <- DATA[str_detect(DATA$cpg, "cg"),]
+  CpGs_Ranges <- GRanges(
+    seqnames = DATA$CHR,
+    ranges = IRanges(start = DATA$MAPINFO, end = DATA$MAPINFO + 1),
+    genes = DATA$UCSC_RefGene_Name,
+    position = DATA$UCSC_RefGene_Group, 
+    Condition_1 = DATA$Condition_1,
+    Condition_2 = DATA$Condition_2
+  )
+  overlaps <- findOverlaps(network, CpGs_Ranges)
+  match_hit <- data.frame(mcols(network[queryHits(overlaps)]), as.data.frame(mcols(CpGs_Ranges)[subjectHits(overlaps), ]), stringsAsFactors = T)
+  match_hit$CpGs <- TRUE
+  return(match_hit)
+}
+
+#Return a network
+Create_network <- function(DATA, network, list_of_promoter) {
+  CpGs_all_network <- unique(rbind(network[which(network$IDbait %in% DATA$ID), ], network[which(network$IDoe %in% DATA$ID), ]))
+  CpGs_all_network <- CpGs_all_network[, c(11, 5, 12, 10)]
+  CpGs_Promoter_Promoter <- CpGs_all_network[which(CpGs_all_network$IDoe %in% list_of_promoter), ]
+  CpGs_Promoter_Promoter$OePromoter <- TRUE
+  CpGs_Promoter_NonPromoter <- CpGs_all_network[-which(CpGs_all_network$IDoe %in% list_of_promoter), ]
+  CpGs_Promoter_NonPromoter$OePromoter <- FALSE
+  CpGs_all_network <- rbind(CpGs_Promoter_Promoter, CpGs_Promoter_NonPromoter)
+  CpGs_all_network$CpGs_bait <- ifelse(CpGs_all_network$IDbait %in% DATA$ID, TRUE, FALSE)
+  CpGs_all_network$CpGs_oe <- ifelse(CpGs_all_network$IDoe %in% DATA$ID, TRUE, FALSE)
+  CpGs_all_network$PromoterBait <- TRUE
+  CpGs_all_network <- CpGs_all_network[, c(1, 2, 6, 8, 3, 4, 7, 5)]
+  Node_features <- data.frame("ID" = paste0("\"", CpGs_all_network$IDbait, "\""), "Genes" = CpGs_all_network$Name_bait, "Promoter" = CpGs_all_network$PromoterBait, "CpGs" = CpGs_all_network$CpGs_bait)
+  Node_features <- rbind(Node_features, data.frame("ID" = paste0("\"", CpGs_all_network$IDoe, "\""), "Genes" = CpGs_all_network$Name_oe, "Promoter" = CpGs_all_network$OePromoter, "CpGs" = CpGs_all_network$CpGs_oe))
+  Node_features <- unique(Node_features)
+  Node_features$Cytoscape_feature <- "string"
+  for (i in seq(length(Node_features$CpGs))) {
+    if (Node_features[i, 3] & Node_features[i, 4]) {
+      Cytoscape_feature <- "Promoter_methylated"
+    } else if (Node_features[i, 3] & !Node_features[i, 4]) {
+      Cytoscape_feature <- "Promoter"
+    } else if (!Node_features[i, 3] & Node_features[i, 4]) {
+      Cytoscape_feature <- "Methylated"
+    } else {
+      Cytoscape_feature <- "Simple_fragment"
+    }
+    Node_features[i, 5] <- Cytoscape_feature
+  }
+  res <- list()
+  res[["network"]] <- CpGs_all_network
+  res[["features"]] <- Node_features
+  print(paste0("The number of nodes is ", length(Node_features[,1])))
+  print(paste0("The number of edges is ", length(CpGs_all_network[,1]$IDbait)))
+  return(res)
+}
+
+
+Create_network_genes <- function(DATA, chromatin_network) {
+  Network <- unique(rbind(chromatin_network[which(chromatin_network$IDbait %in% DATA$ID),], chromatin_network[which(chromatin_network$IDoe %in% DATA$ID),]))
+  return(Network)
+}
+
+Combine_networks <- function(network_1_transcription, network_2_methylation, Overlap_gene_UP, Overlap_gene_DOWN, Overlap_bed_file, Promoters){
+  full_network <- unique(rbind(network_1_transcription, network_2_methylation[,c(1,5)]))
+  full_graph <- graph_from_data_frame(full_network, directed = F)
+  nodes <- V(full_graph)
+  selected_nodes_up_down <- V(full_graph)[V(full_graph)$name %in% Overlap_gene_UP$ID & V(full_graph)$name %in% Overlap_gene_DOWN$ID]
+  selected_nodes_UP <- V(full_graph)[V(full_graph)$name %in% Overlap_gene_UP$ID & !V(full_graph)$name %in% Overlap_gene_DOWN$ID]
+  selected_nodes_DOWN <- V(full_graph)[!V(full_graph)$name %in% Overlap_gene_UP$ID & V(full_graph)$name %in% Overlap_gene_DOWN$ID]
+  selected_nodes_no_up_down <- V(full_graph)[!V(full_graph)$name %in% Overlap_gene_UP$ID & !V(full_graph)$name %in% Overlap_gene_DOWN$ID]
+  vertex_attr(full_graph, "expression", index = selected_nodes_up_down) <- "UP&DOWN"
+  vertex_attr(full_graph, "expression", index = selected_nodes_UP) <- "UP"
+  vertex_attr(full_graph, "expression", index = selected_nodes_DOWN) <- "DOWN"
+  vertex_attr(full_graph, "expression", index = selected_nodes_no_up_down) <- "No_diff"
+  selected_nodes_CpG <- V(full_graph)[V(full_graph)$name %in% Overlap_bed_file$ID]
+  vertex_attr(full_graph, "CpGs", index = selected_nodes_CpG) <- "TRUE"
+  selected_nodes_no_CpG <- V(full_graph)[!V(full_graph)$name %in% Overlap_bed_file$ID]
+  vertex_attr(full_graph, "CpGs", index = selected_nodes_no_CpG) <- "FALSE"
+  selected_nodes_promoter <- V(full_graph)[V(full_graph)$name %in% List_Promoter]
+  vertex_attr(full_graph, "Promoter", index = selected_nodes_promoter) <- "TRUE"
+  selected_nodes_Non_promoter <- V(full_graph)[!V(full_graph)$name %in% List_Promoter]
+  vertex_attr(full_graph, "Promoter", index = selected_nodes_Non_promoter) <- "FALSE"
+  return(full_graph)
+}
+
+add_nodes_attributes <- function(network, chromatin_network, overlap_genes, overlap_methylations) {
+  features <- data.frame(get.vertex.attribute(network))
+  promoter_name <- chromatin_network[,c("IDbait", "Name_bait")]
+  promoter_name <- unique(promoter_name)
+  genes_name <- overlap_genes[,c(2,3)]
+  genes_name <- unique(genes_name)
+  CpG_values <- overlap_methylations[,c(2,5,6)]
+  CpG_values$CpG_Methylation <- ifelse(CpG_values$Condition_2 - CpG_values$Condition_1 > 0, "UP", "DOWN")
+  CpG_values <- CpG_values[,c(1,4)]
+  
+  features <- merge(features, promoter_name, by.x = "name", by.y = "IDbait", all.x = TRUE)
+  features <- merge(features, genes_name, by.x = "name", by.y = "ID", all.x = TRUE)
+  features <- merge(features, CpG_values, by.x = "name", by.y = "ID", all.x = TRUE)
+  
+  features$gene_name <- "NA"
+  for (i in seq(length(features$name))) {
+    tmp <- as.vector(features[i,4])
+    gene1 <- ifelse(!is.na(features[i,5]), features[i,5], "")
+    gene2 <- ifelse(!is.na(features[i,6]), features[i,6], "")
+    if (gene1 == "" & gene2 == "") {
+      gene_merge <- NA
+    } else if (gene1 != "" & gene2 != "") {
+      gene_merge <- paste(gene1, gene2, sep = ";")
+    }else{
+      gene_merge <- paste0(gene1, gene2)
+    }
+    features[i,8] <- gene_merge
+  }
+  
+  DE_UP <- data.frame("ID" = matchit[matchit$ID %in% matchit_UP$ID & matchit$DE,c(2)],  "DE" = "UP")
+  DE_DOWN <- data.frame("ID" = matchit[matchit$ID %in% matchit_DOWN$ID & matchit$DE,c(2)], "DE" = "DOWN")
+  DE <- rbind(DE_UP,DE_DOWN)
+  DE <- unique(DE)
+  features <- merge(features, DE, by.x = "name", by.y = "ID", all.x = TRUE)
+  return(features)
+}
+
+```
